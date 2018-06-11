@@ -36,7 +36,7 @@ class Brique {
 		return {x: this.x, y: this.y, height: this.height , width: this.width};
 	}
 
-	touched(obj_all){
+	verifSiTouched(obj_all){
 		const radius = obj_all[ballHere][0].radius;
 		const yBall = obj_all[ballHere][0].y;
 		const xBall = obj_all[ballHere][0].x;
@@ -78,7 +78,7 @@ var iAmBrique = SC.evt("Je suis une brique");
 //le comportement du cube qui a la brique
 var progBrique = SC.par(
 	SC.generate(iAmBrique, SC.my("me"), SC.forever)//parle pour signaler qu'elle est en vie
-	, SC.actionOn(ballHere, SC.my("touched"), undefined, SC.forever)
+	, SC.actionOn(ballHere, SC.my("verifSiTouched"), undefined, SC.forever)
 	, SC.generate(drawMe, SC.my("me"), SC.forever)//se dessine
 );
 
@@ -94,7 +94,7 @@ for(var c = 0; c < nbreColonnes; c++) {
 		if(r%2 == 0){
 			f = 1;
 		}
-		tab2d_CubeBriques[c][r] = SC.kill( briqueTouched
+		tab2d_CubeBriques[c][r] = SC.kill( verifSiTouched
 			, SC.cube(
 				new Brique(c,r,f), progBrique
 			)
