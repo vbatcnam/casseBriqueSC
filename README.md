@@ -1,2 +1,3 @@
 # casseBriqueSC
-jeu de casse briques avec SC
+break out game with SugarCubes
+
