@@ -16,14 +16,14 @@ zoneDeJeu.dessineLesEltsDuJeu = function(){
 		// console.log(this.toDraw[i]);
 		this.toDraw[i].draw(ctx);
 	}
-	this.dropFrame = false;
+	this.isFrameRequested = false;
 };
 
 
 //correspond  à la fonction sc_requestDisplayFun de JFS
 zoneDeJeu.afficheLesEltsDuJeu = function(obj_all){
-	if(this.dropFrame){return;}
-	this.dropFrame = true;
+	if(this.isFrameRequested){return;}//évite de redessiner si ce n'est pas fini
+	this.isFrameRequested = true;
 	this.toDraw = obj_all[drawMe]; //tableau des objets à redessiner à chaque nouvelle image. zoneDeJeu.toDraw=[cubeBalle, cubeRaquette, tab_CubeBriques]; 
 	// console.log(this.toDraw);
 
@@ -32,7 +32,7 @@ zoneDeJeu.afficheLesEltsDuJeu = function(obj_all){
 
 
 // booléen de régulation de l'affichage appelée par affiche()
-zoneDeJeu.dropFrame = false; 
+zoneDeJeu.isFrameRequested = false; 
 
 // le comportement du cube de la zone de jeu
 var progZoneDeJeu = SC.actionOn( drawMe
