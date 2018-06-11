@@ -1,0 +1,22 @@
+body{
+	background-color: #FFF8DC;
+	background: linear-gradient(to top, MediumAquaMarine, MediumTurquoise);
+}
+
+#zoneDeJeu{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid #B22222;
+	background-color: #FFF8DC;
+}
+
+h1{
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 20px 0 ;
+	text-align: center;
+	color: #B22222;
+	background-color: #FFF8DC;
+}
