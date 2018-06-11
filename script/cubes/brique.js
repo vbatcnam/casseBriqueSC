@@ -94,10 +94,8 @@ for(var c = 0; c < nbreColonnes; c++) {
 		if(r%2 == 0){
 			f = 1;
 		}
-		tab2d_CubeBriques[c][r] = SC.kill( verifSiTouched
-			, SC.cube(
-				new Brique(c,r,f), progBrique
-			)
+		tab2d_CubeBriques[c][r] = SC.cube(
+			new Brique(c,r,f), progBrique
 		);
 	}
 }

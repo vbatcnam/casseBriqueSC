@@ -38,7 +38,7 @@ class Raquette {
 			&& xBall-radius < this.x+this.width
 		){
 			obj_all[ballHere][0].rebondit("y");
-			console.log("touché");
+			// console.log("touché");
 		}
 		else{
 			//maitreDuJeu doit retirer une vie
