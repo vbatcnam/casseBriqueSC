@@ -39,18 +39,40 @@ class Brique {
 	verifSiTouched(obj_all){
 		const radius = obj_all[ballHere][0].radius;
 		const yBall = obj_all[ballHere][0].y;
+		const dyBall = obj_all[ballHere][0].dy;
 		const xBall = obj_all[ballHere][0].x;
+		const dxBall = obj_all[ballHere][0].dx;
+		// console.log(dyBall);
 		
-		// la balle touche le dessous de la brique
-		// if( yBall-radius == this.y
-			// && xBall+radius > this.x 
-			// && xBall-radius < this.x+this.width
-		// la balle touche le dessus de la brique
-			// || yBall+radius == this.y 
-			// && xBall+radius > this.x 
-			// && xBall-radius < this.x+this.width
-		// )
-		if(xBall > this.x && xBall < this.x + this.width && yBall > this.y && yBall < this.y + this.height)//code MDN
+		//le if pas encore au point car faille pour les coins de la brique
+		if( 
+			//la balle touche le dessous de la brique
+			yBall-radius <= this.y + this.height
+			&& yBall-radius >= this.y + this.height - Math.abs(dyBall)
+			&& xBall >= this.x 
+			&& xBall <= this.x+this.width
+			
+			||
+			//la balle touche le dessus de la brique
+			yBall+radius >= this.y 
+			&& yBall+radius <= this.y + Math.abs(dyBall)
+			&& xBall >= this.x 
+			&& xBall <= this.x+this.width
+			
+			||
+			//la balle touche le côté droit de la brique
+			xBall - radius <= this.x + this.width
+			&& xBall - radius >= this.x + this.width - Math.abs(dxBall)
+			&& yBall >= this.y
+			&& yBall <= this.height
+			
+			||
+			//la balle touche le côté gauche de la brique
+			xBall + radius >= this.x
+			&& xBall + radius <= this.x + Math.abs(dxBall)
+			&& yBall >= this.y
+			&& yBall <= this.height
+		)
 		{
 			obj_all[ballHere][0].rebondit("y");	
 			if(this.force==0){

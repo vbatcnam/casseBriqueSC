@@ -29,16 +29,6 @@ class Balle {
 	
 	rebondit(axe){
 		this['d'+ axe] = -this['d'+ axe];
-		
-		// //Rebondit si la balle touche une brique et le signale
-		// if( this.x > brique.x // comment reconnaître la brique ?
-			// && this.x <= brique.x + brique.width 
-			// && this.y >= brique.y 
-			// && this.y < brique.y + brique.height
-		// ){
-			// this.balle.dy = -this.balle.dy;
-		// }
-
 		// //Si la balle passe sous la raquette, elle meurt
 		// if(this.y < raquette.y){
 			// this.alive = false;
