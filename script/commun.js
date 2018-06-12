@@ -23,4 +23,5 @@ includeScript('script/cubes/brique.js');
 includeScript('script/cubes/maitreDuJeu.js');
 includeScript('script/cubes/zoneDeJeu.js');
 includeScript('script/cubes/murs.js');
+includeScript('script/collision.js');
 includeScript('script/moteur.js');
