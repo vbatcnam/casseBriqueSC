@@ -42,7 +42,7 @@ class MaitreDuJeu {
 var progMaitreDuJeu = SC.par(
 	SC.action(SC.my("drawScore"), SC.forever)
 	, SC.action(SC.my("drawLives"), SC.forever)
-	, SC.actionOn(iAmBrique, SC.nothing(), SC.my("afficheFin"), SC.forever)
+	, SC.actionOn(briqueHere, SC.nothing(), SC.my("afficheFin"), SC.forever)
 );
 
 //le cube

@@ -45,49 +45,53 @@ class Brique {
 		// console.log(dyBall);
 		
 		//le if pas encore au point car faille pour les coins de la brique
-		if( 
-			//la balle touche le dessous de la brique
+		if( //la balle touche le dessous de la brique
 			yBall-radius <= this.y + this.height
 			&& yBall-radius >= this.y + this.height - Math.abs(dyBall)
 			&& xBall >= this.x 
 			&& xBall <= this.x+this.width
-			
-			||
-			//la balle touche le dessus de la brique
+			||//la balle touche le dessus de la brique
 			yBall+radius >= this.y 
 			&& yBall+radius <= this.y + Math.abs(dyBall)
 			&& xBall >= this.x 
-			&& xBall <= this.x+this.width
+			&& xBall <= this.x+this.width){
+				obj_all[ballHere][0].rebondit("y");
+				this.iAmTuched();
+			}
 			
-			||
-			//la balle touche le côté droit de la brique
+		if(//la balle touche le côté droit de la brique
 			xBall - radius <= this.x + this.width
 			&& xBall - radius >= this.x + this.width - Math.abs(dxBall)
 			&& yBall >= this.y
 			&& yBall <= this.height
-			
-			||
-			//la balle touche le côté gauche de la brique
+			||//la balle touche le côté gauche de la brique
 			xBall + radius >= this.x
 			&& xBall + radius <= this.x + Math.abs(dxBall)
 			&& yBall >= this.y
-			&& yBall <= this.height
-		)
-		{
-			obj_all[ballHere][0].rebondit("y");	
-			if(this.force==0){
-				this.alive = false;
-				//la brique ne doit plus émettre
-			}else{
-				this.force-=1;
-				this.color = this.colorise();
+			&& yBall <= this.height){
+				obj_all[ballHere][0].rebondit("x");
+				this.iAmTuched();
 			}
-			//maitreDuJeu doit ajouter un point
-			
 		}
+			
+	segmentTouched(segBegin){
+	
+	}
+	iAmTuched(){//retirer une vie
+		if(this.force==0){
+			this.alive = false;
+			//la brique ne doit plus émettre
+		}else{
+			this.force-=1;
+			this.color = this.colorise();
+		}
+		//maitreDuJeu doit ajouter un point
 	}
 }
 
+class border{
+
+}
 //================================================================
 //							le cube 
 //================================================================
@@ -95,17 +99,18 @@ class Brique {
 //Événements de la brique
 //----------------------
 //pour que le maître du jeu sache qu'elle est toujours en vie (dessinée)
-var iAmBrique = SC.evt("Je suis une brique");
+var briqueHere = SC.evt("Je suis une brique et je suis ici");
+var killMe = SC.evt("kill me");
 
 //le comportement du cube qui a la brique
 var progBrique = SC.par(
-	SC.generate(iAmBrique, SC.my("me"), SC.forever)//parle pour signaler qu'elle est en vie
+	SC.generate(briqueHere, SC.my("me"), SC.forever)//parle pour signaler qu'elle est en vie
 	, SC.actionOn(ballHere, SC.my("verifSiTouched"), undefined, SC.forever)
 	, SC.generate(drawMe, SC.my("me"), SC.forever)//se dessine
 );
 
 //les cubes de briques
-var tab2d_CubeBriques = []
+var tab2d_CubeBriques = [];
 var nbreLigne = 5;
 var nbreColonnes = 9 ; 
 
@@ -116,8 +121,14 @@ for(var c = 0; c < nbreColonnes; c++) {
 		if(r%2 == 0){
 			f = 1;
 		}
-		tab2d_CubeBriques[c][r] = SC.cube(
-			new Brique(c,r,f), progBrique
+		// tab2d_CubeBriques[c][r] = SC.cube(
+			// new Brique(c,r,f), progBrique
+		// );
+		
+		//start and kill when ...
+		tab2d_CubeBriques[c][r] = SC.kill(//c p h ???
+			killMe
+			, SC.cube( new Brique(c,r,f), progBrique)
 		);
 	}
 }

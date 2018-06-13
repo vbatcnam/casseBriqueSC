@@ -14,8 +14,8 @@ var murG = new Mur(0);//x0
 
 var frontiere = new Mur(height);// mur du bas
 
-// murH.touched= function(yBall, radius){
-murH.touched= function(obj_all){
+// murH.verifSiTouched= function(yBall, radius){
+murH.verifSiTouched= function(obj_all){
 	// console.log(obj_all);
 	const yBall = obj_all[ballHere][0].y;
 	const radius = obj_all[ballHere][0].radius;
@@ -24,7 +24,7 @@ murH.touched= function(obj_all){
 	}
 };
 
-murD.touched= function(obj_all){
+murD.verifSiTouched= function(obj_all){
 	const xBall = obj_all[ballHere][0].x;
 	const radius = obj_all[ballHere][0].radius;
 	if(xBall + radius == this.position){
@@ -32,7 +32,7 @@ murD.touched= function(obj_all){
 	}
 };
 
-murG.touched= function(obj_all){
+murG.verifSiTouched= function(obj_all){
 	const xBall = obj_all[ballHere][0].x;
 	const radius = obj_all[ballHere][0].radius;
 	if(xBall - radius == this.position){
@@ -40,7 +40,7 @@ murG.touched= function(obj_all){
 	}
 };
 
-frontiere.touched= function(obj_all){
+frontiere.verifSiTouched= function(obj_all){
 	const yBall = obj_all[ballHere][0].y;
 	const radius = obj_all[ballHere][0].radius;
 	if(yBall + radius == this.position){
@@ -54,13 +54,13 @@ frontiere.touched= function(obj_all){
 
 //les comportements
 //-----------------
-var progMurH = SC.actionOn(ballHere, SC.my("touched"), undefined, SC.forever);
+var progMurH = SC.actionOn(ballHere, SC.my("verifSiTouched"), undefined, SC.forever);
 
-var progMurD = SC.actionOn(ballHere, SC.my("touched"), undefined, SC.forever);
+var progMurD = SC.actionOn(ballHere, SC.my("verifSiTouched"), undefined, SC.forever);
 
-var progMurG = SC.actionOn(ballHere, SC.my("touched"), undefined, SC.forever);
+var progMurG = SC.actionOn(ballHere, SC.my("verifSiTouched"), undefined, SC.forever);
 
-var progFrontiere = SC.actionOn(ballHere, SC.my("touched"), undefined, SC.forever);
+var progFrontiere = SC.actionOn(ballHere, SC.my("verifSiTouched"), undefined, SC.forever);
 
 //les cubes
 //-----------
