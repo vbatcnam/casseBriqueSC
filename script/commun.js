@@ -17,7 +17,8 @@ function includeScript(ps_url) {
 }
 
 //les includes
-includeScript('script/cubes/balle.js');
+/* retiiré en attendant de maitriser les import JS6
+ncludeScript('script/cubes/balle.js');
 includeScript('script/cubes/raquette.js');
 includeScript('script/cubes/brique.js');
 includeScript('script/cubes/maitreDuJeu.js');
@@ -25,3 +26,4 @@ includeScript('script/cubes/zoneDeJeu.js');
 includeScript('script/cubes/murs.js');
 includeScript('script/collision.js');
 includeScript('script/moteur.js');
+*/
