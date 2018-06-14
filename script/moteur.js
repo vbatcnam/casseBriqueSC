@@ -20,3 +20,5 @@ moteur.addProgram(cubeMurD);
 moteur.addProgram(cubeMurG);
 
 moteur.addProgram(cubeFrontiere);
+
+//console.log(moteur);
