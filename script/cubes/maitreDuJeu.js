@@ -4,16 +4,20 @@ class MaitreDuJeu {
 		this.score = 0;
 	}
 	
-	drawScore() {
+	drawScore(ctx) {
 		ctx.font = "16px Arial";
 		ctx.fillStyle = "#0095DD";
 		ctx.fillText("Score : "+this.score, 8, 20);
 	}
 	
-	drawLives() {
+	drawLives(ctx) {
 		ctx.font = "16px Arial";
 		ctx.fillStyle = "#0095DD";
 		ctx.fillText("Lives : "+this.lives, canvas.width-65, 20);
+	}
+
+	addPoint(){
+		this.score += 1;
 	}
 	
 	retireVie(){
@@ -42,11 +46,27 @@ class MaitreDuJeu {
 var progMaitreDuJeu = SC.par(
 	SC.action(SC.my("drawScore"), SC.forever)
 	, SC.action(SC.my("drawLives"), SC.forever)
-	, SC.actionOn(briqueHere, SC.nothing(), SC.my("afficheFin"), SC.forever)
+	, SC.seq(
+		SC.pause(2)
+		, SC.par(
+			SC.actionOn(briqueHere, SC.nothing()
+				, SC.my("afficheFin"), SC.forever)
+				//ne marche pas
+			// , SC.actionOn(addPoint, SC.my("addPoint")
+				// , undefined, SC.forever)
+			// , SC.actionOn(retireVie, SC.my("retireVie")
+				// , undefined, SC.forever)
+		)
+	)
 );
 
-//le cube
-// var cubeMaitreDuJeu = SC.cube(new MaitreDuJeu(), progMaitreDuJeu);
-var cubeMaitreDuJeu = SC.cube(new MaitreDuJeu(), SC.nothing());
+//le cube 
 
+/*genere TypeError: a is not a function[En savoir plus]
+SugarCubes.js:3886:11 21 fois*/
+var cubeMaitreDuJeu = SC.cube(new MaitreDuJeu(), progMaitreDuJeu);
 
+//en attendant
+// var cubeMaitreDuJeu = SC.cube(new MaitreDuJeu(), SC.nothing());
+
+//console.log(cubeMaitreDuJeu);

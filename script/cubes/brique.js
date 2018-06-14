@@ -13,6 +13,7 @@ class Brique {
 		this.alive = true;
 		this.me = this;
 		this.killMe = SC.evt("kill");//ajouté par Olivier
+		this.addPoint = SC.evt("ajoute 1 point");
 	}
 	
 	colorise(){
@@ -37,15 +38,18 @@ class Brique {
 		return {x: this.x, y: this.y, height: this.height , width: this.width};
 	}
 
+	//il faudra peut être mettre en paramètre le MDJ aussi...
 	verifSiTouched(obj_all, machine){
 		const radius = obj_all[ballHere][0].radius;
 		const yBall = obj_all[ballHere][0].y;
 		const dyBall = obj_all[ballHere][0].dy;
 		const xBall = obj_all[ballHere][0].x;
 		const dxBall = obj_all[ballHere][0].dx;
-		// console.log(dyBall);
+		// console.log(obj_all);
 		
-		//le if pas encore au point car faille pour les coins de la brique
+/** le if pas encore au point car faille pour les coins de la brique */
+		
+		// la balle touche dessus|dessous la brique
 		if( //la balle touche le dessous de la brique
 			yBall-radius <= this.y + this.height
 			&& yBall-radius >= this.y + this.height - Math.abs(dyBall)
@@ -60,6 +64,7 @@ class Brique {
 				this.iAmTuched(machine);
 			}
 			
+		// la balle touche les côtés 
 		if(//la balle touche le côté droit de la brique
 			xBall - radius <= this.x + this.width
 			&& xBall - radius >= this.x + this.width - Math.abs(dxBall)
@@ -78,16 +83,18 @@ class Brique {
 	segmentTouched(segBegin){//inutile pour l'instant
 		return '';
 	}
+	
 	iAmTuched(machine){//retirer une vie
-		if(this.force==0){
+		if(this.force == 0){
 			this.alive = false;//peut être inutile
 			//la brique ne doit plus émettre
 			machine.generateEvent(this.killMe);//ajouté par Olivier
 		}else{
-			this.force-=1;
+			this.force -= 1;
 			this.color = this.colorise();
 		}
 		//maitreDuJeu doit ajouter un point
+		machine.generateEvent(this.addPoint);
 	}
 	
 /** version Olivier

@@ -1,10 +1,11 @@
 class Raquette {
 	constructor() {
 		this.height = 10;
-		this.width = 75;
-		this.x = (zoneDeJeu.width - this.width)/2;
+		this.width = 80;
+		this.x = (zoneDeJeu.width - this.width)/2;// au centre
 		this.y = zoneDeJeu.height - this.height;
 		this.me = this;
+		this.retireVie = SC.evt("retire 1 vie");
 	}
 	
 	draw(ctx){
@@ -21,14 +22,19 @@ class Raquette {
 		document.addEventListener(
 			"mousemove", evt=>{
 				let relativeX = evt.clientX - zoneDeJeu.offsetLeft;
-				if(relativeX > 0 && relativeX < zoneDeJeu.width) {
-					this.x = relativeX - this.width/2;
+				
+				//pour éviter que la raquette n'entre dans les murs
+				let min = Math.floor(this.width/2);
+				let max = zoneDeJeu.width - min;
+				
+				if(relativeX > min && relativeX < max) {
+					this.x = relativeX - min;
 				}
 			},
 			false);
 	}
 	
-	verifSiTouched(obj_all){
+	verifSiTouched(obj_all, machine){
 		const radius = obj_all[ballHere][0].radius;
 		const yBall = obj_all[ballHere][0].y + radius;
 		const xBall = obj_all[ballHere][0].x;
@@ -42,6 +48,7 @@ class Raquette {
 		}
 		else{
 			//maitreDuJeu doit retirer une vie
+			machine.generateEvent(this.retireVie);
 		}
 	}
 }
