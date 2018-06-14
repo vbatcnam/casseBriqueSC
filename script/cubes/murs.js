@@ -40,17 +40,20 @@ murG.verifSiTouched= function(obj_all){
 	}
 };
 
-frontiere.verifSiTouched= function(obj_all){
+frontiere.verifSiTouched= function(obj_all, machine){
 	const yBall = obj_all[ballHere][0].y;
 	const radius = obj_all[ballHere][0].radius;
 	if(yBall + radius == this.position){
-		obj_all[ballHere][0].alive = false;;
+		obj_all[ballHere][0].alive = false;
+		//maitreDuJeu doit retirer une vie
+		machine.generateEvent(retireVie);
 	}
 };
 
 //================================================================
 //							les cubes
 //================================================================
+var retireVie = SC.evt("retire 1 vie");
 
 //les comportements
 //-----------------

@@ -5,7 +5,6 @@ class Raquette {
 		this.x = (zoneDeJeu.width - this.width)/2;// au centre
 		this.y = zoneDeJeu.height - this.height;
 		this.me = this;
-		this.retireVie = SC.evt("retire 1 vie");
 	}
 	
 	draw(ctx){
@@ -45,10 +44,6 @@ class Raquette {
 		){
 			obj_all[ballHere][0].rebondit("y");
 			// console.log("touché");
-		}
-		else{
-			//maitreDuJeu doit retirer une vie
-			machine.generateEvent(this.retireVie);
 		}
 	}
 }

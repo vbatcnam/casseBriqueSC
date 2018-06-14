@@ -13,7 +13,6 @@ class Brique {
 		this.alive = true;
 		this.me = this;
 		this.killMe = SC.evt("kill");//ajouté par Olivier
-		this.addPoint = SC.evt("ajoute 1 point");
 	}
 	
 	colorise(){
@@ -93,8 +92,9 @@ class Brique {
 			this.force -= 1;
 			this.color = this.colorise();
 		}
-		//maitreDuJeu doit ajouter un point
-		machine.generateEvent(this.addPoint);
+		console.log('ajoute 1');
+		//Dire au maitreDuJeu d'ajouter un point
+		machine.generateEvent(addPoint);
 	}
 	
 /** version Olivier
@@ -170,6 +170,7 @@ class border{
 //pour que le maître du jeu sache qu'elle est toujours en vie (dessinée)
 var briqueHere = SC.evt("Je suis une brique et je suis ici");
 var killMe = SC.evt("kill me");
+var addPoint = SC.evt("ajoute 1 point");
 
 //le comportement du cube qui a la brique
 var progBrique = SC.par(
@@ -195,7 +196,7 @@ for(var c = 0; c < nbreColonnes; c++) {
 	    tab2d_CubeBriques[c][r] = SC.cube(
 		new Brique(c,r,f), SC.kill(SC.my("killMe"),progBrique
 	    ));
-		// tab2d_CubeBriques[c][r] = SC.kill(//c p h ???
+		// tab2d_CubeBriques[c][r] = SC.kill(//configEvenementielle programme h ???
 			// SC.my("killMe")
 			// , SC.cube( new Brique(c,r,f), progBrique)
 		// );

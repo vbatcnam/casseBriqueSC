@@ -2,6 +2,12 @@ class MaitreDuJeu {
 	constructor(){
 		this.lives = 3;
 		this.score = 0;
+		this.me = this;
+	}
+	
+	draw(ctx){
+		drawScore(ctx);
+		drawLives(ctx);
 	}
 	
 	drawScore(ctx) {
@@ -17,7 +23,9 @@ class MaitreDuJeu {
 	}
 
 	addPoint(){
+		console.log('ok');
 		this.score += 1;
+		console.log("score : " + this.score);
 	}
 	
 	retireVie(){
@@ -26,6 +34,8 @@ class MaitreDuJeu {
 		}
 		else{
 			this.lives-=1;
+			console.log("vie : " + this.lives);
+			//doit redessiner la balle sur la raquette
 		}
 	}
 
@@ -44,18 +54,19 @@ class MaitreDuJeu {
 */ 
 
 var progMaitreDuJeu = SC.par(
-	SC.action(SC.my("drawScore"), SC.forever)
-	, SC.action(SC.my("drawLives"), SC.forever)
+	// SC.action(SC.my("drawScore"), SC.forever)
+	SC.generate(drawMe, SC.my("me"), SC.forever)
+	// , SC.action(SC.my("drawLives"), SC.forever)
 	, SC.seq(
-		SC.pause(2)
+		SC.pause()
 		, SC.par(
 			SC.actionOn(briqueHere, SC.nothing()
 				, SC.my("afficheFin"), SC.forever)
 				//ne marche pas
-			// , SC.actionOn(addPoint, SC.my("addPoint")
-				// , undefined, SC.forever)
-			// , SC.actionOn(retireVie, SC.my("retireVie")
-				// , undefined, SC.forever)
+			, SC.actionOn(addPoint, SC.my("addPoint")
+				, undefined, SC.forever)
+			, SC.actionOn(retireVie, SC.my("retireVie")
+				, undefined, SC.forever)
 		)
 	)
 );
