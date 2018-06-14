@@ -12,6 +12,7 @@ class Brique {
 		this.y = ligne * (this.height + this.margin)+ this.offsetTop;
 		this.alive = true;
 		this.me = this;
+		this.killMe = SC.evt("kill");//ajouté par Olivier
 	}
 	
 	colorise(){
@@ -36,7 +37,7 @@ class Brique {
 		return {x: this.x, y: this.y, height: this.height , width: this.width};
 	}
 
-	verifSiTouched(obj_all){
+	verifSiTouched(obj_all, machine){
 		const radius = obj_all[ballHere][0].radius;
 		const yBall = obj_all[ballHere][0].y;
 		const dyBall = obj_all[ballHere][0].dy;
@@ -56,7 +57,7 @@ class Brique {
 			&& xBall >= this.x 
 			&& xBall <= this.x+this.width){
 				obj_all[ballHere][0].rebondit("y");
-				this.iAmTuched();
+				this.iAmTuched(machine);
 			}
 			
 		if(//la balle touche le côté droit de la brique
@@ -70,25 +71,86 @@ class Brique {
 			&& yBall >= this.y
 			&& yBall <= this.height){
 				obj_all[ballHere][0].rebondit("x");
-				this.iAmTuched();
+				this.iAmTuched(machine);
 			}
 		}
 			
-	segmentTouched(segBegin){
-	
+	segmentTouched(segBegin){//inutile pour l'instant
+		return '';
 	}
-	iAmTuched(){//retirer une vie
+	iAmTuched(machine){//retirer une vie
 		if(this.force==0){
-			this.alive = false;
+			this.alive = false;//peut être inutile
 			//la brique ne doit plus émettre
+			machine.generateEvent(this.killMe);//ajouté par Olivier
 		}else{
 			this.force-=1;
 			this.color = this.colorise();
 		}
 		//maitreDuJeu doit ajouter un point
 	}
+	
+/** version Olivier
+===========================
+*/
+    // verifSiTouched(obj_all, machine){
+		// const radius = obj_all[ballHere][0].radius;
+		// const yBall = obj_all[ballHere][0].y;
+		// const dyBall = obj_all[ballHere][0].dy;
+		// const xBall = obj_all[ballHere][0].x;
+		// const dxBall = obj_all[ballHere][0].dx;
+		// // console.log(dyBall);
+		
+		// //le if pas encore au point car faille pour les coins de la brique
+		// if( 
+			// //la balle touche le dessous de la brique
+			// yBall-radius <= this.y + this.height
+			// && yBall-radius >= this.y + this.height - Math.abs(dyBall)
+			// && xBall >= this.x 
+			// && xBall <= this.x+this.width
+			
+			// ||
+			// //la balle touche le dessus de la brique
+			// yBall+radius >= this.y 
+			// && yBall+radius <= this.y + Math.abs(dyBall)
+			// && xBall >= this.x 
+			// && xBall <= this.x+this.width
+			
+			// ||
+			// //la balle touche le côté droit de la brique
+			// xBall - radius <= this.x + this.width
+			// && xBall - radius >= this.x + this.width - Math.abs(dxBall)
+			// && yBall >= this.y
+			// && yBall <= this.height
+			
+			// ||
+			// //la balle touche le côté gauche de la brique
+			// xBall + radius >= this.x
+			// && xBall + radius <= this.x + Math.abs(dxBall)
+			// && yBall >= this.y
+			// && yBall <= this.height
+		// )
+		// {
+			// obj_all[ballHere][0].rebondit("y");	
+			// if(this.force==0){
+				// this.alive = false;
+			    // //la brique ne doit plus émettre
+			    // machine.generateEvent(this.killMe);
+			// }else{
+				// this.force-=1;
+				// this.color = this.colorise();
+			// }
+			// //maitreDuJeu doit ajouter un point
+			
+		// }
+	// }
+/** FIN
+===========================
+*/
+
 }
 
+//en cours
 class border{
 
 }
@@ -121,15 +183,15 @@ for(var c = 0; c < nbreColonnes; c++) {
 		if(r%2 == 0){
 			f = 1;
 		}
-		// tab2d_CubeBriques[c][r] = SC.cube(
-			// new Brique(c,r,f), progBrique
-		// );
 		
 		//start and kill when ...
-		tab2d_CubeBriques[c][r] = SC.kill(//c p h ???
-			killMe
-			, SC.cube( new Brique(c,r,f), progBrique)
-		);
+	    tab2d_CubeBriques[c][r] = SC.cube(
+		new Brique(c,r,f), SC.kill(SC.my("killMe"),progBrique
+	    ));
+		// tab2d_CubeBriques[c][r] = SC.kill(//c p h ???
+			// SC.my("killMe")
+			// , SC.cube( new Brique(c,r,f), progBrique)
+		// );
 	}
 }
     
