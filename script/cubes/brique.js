@@ -11,7 +11,6 @@ class Brique {
 		this.x = col * (this.width + this.margin) + this.offsetLeft;
 		this.y = ligne * (this.height + this.margin)+ this.offsetTop;
 		this.alive = true;
-		this.me = this;
 		this.killMe = SC.evt("kill");//ajouté par Olivier
 	}
 	

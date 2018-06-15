@@ -69,6 +69,9 @@ SC_CubeBinding.prototype = {
         throw "cube is null or undefined !";
         }
       var tgt = this.cube[this.name];
+		if(this.name == 'me'){
+			tgt = this.cube;
+		}
       if(undefined === tgt){
         //console.log("target not found");
         throw "target not found";
@@ -100,12 +103,14 @@ SC_CubeBinding.prototype = {
         return copy;
         }
   };
-Object.defineProperty(SC_CubeBinding.prototype, "isBinding"
-                          , {enumerable:false
-                             , value:true
-                             , writable: false
-                             }
-                          );
+	function defineConstantProperty(p_obj, p_propertyName, p_propertyValue){
+		Object.defineProperty(
+			p_obj,
+			p_propertyName,
+			{enumerable:false, value:p_propertyValue, writable:false}
+		);
+	}
+defineConstantProperty(SC_CubeBinding.prototype, 'isBinding', true);
 
 /*
  * Methodes utilitaires utilisées dans l'implantation des SugarCubes.
@@ -244,30 +249,10 @@ var _SC = {
  *    (SC_cubeAddCellEvt et SC_cubeCellifyEvt)
  */
 function SC_cubify(){
-  Object.defineProperty(this, "SC_cubeAddBehaviorEvt"
-                          , {enumerable:false
-                             , value:SC.evt("addBehaviorEvt")
-                             , writable: false
-                             }
-                          );
-  Object.defineProperty(this, "SC_cubeKillEvt"
-                          , {enumerable:false
-                             , value:SC.evt("killSelf")
-                             , writable: false
-                             }
-                          );
-  Object.defineProperty(this, "SC_cubeCellifyEvt"
-                          , {enumerable:false
-                             , value:SC.evt("cellifyEvt")
-                             , writable: false
-                             }
-                          );
-  Object.defineProperty(this, "SC_cubeAddCellEvt"
-                          , {enumerable:false
-                             , value:SC.evt("addCellEvt")
-                             , writable: false
-                             }
-                          );
+	defineConstantProperty(this, "SC_cubeAddBehaviorEvt", SC.evt("addBehaviorEvt"));
+	defineConstantProperty(this, "SC_cubeKillEvt", SC.evt("killSelf"));
+	defineConstantProperty(this, "SC_cubeCellifyEvt", SC.evt("cellifyEvt"));
+	defineConstantProperty(this, "SC_cubeAddCellEvt", SC.evt("addCellEvt"));
   Object.defineProperty(this, "$SC_cellMaker"
                            , { enumerable:false
                                , value:SC.cell({init:null, sideEffect: function(val, evts, m){

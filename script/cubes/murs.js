@@ -1,7 +1,6 @@
 class Mur {
 	constructor(position){
 		this.position = position;
-		this.me = this;
 	}
 }
 // création des objets

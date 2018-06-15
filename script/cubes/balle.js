@@ -2,8 +2,7 @@ class Balle {
 	constructor() {
 		this.radius = 10; //rayon
 		this.alive = true;//meurt si elle touche la frontière
-		this.me = this;//l'objet balle dans une propriété (pour SC)
-		this.bouge();
+		// this.bouge();
 		this.reset();//place la balle au centre
 	}
 	

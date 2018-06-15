@@ -3,7 +3,6 @@ class Raquette {
 		this.height = 10;
 		this.width = 80;
 		this.y = zoneDeJeu.height - this.height;
-		this.me = this;
 		this.reset();
 	}
 	

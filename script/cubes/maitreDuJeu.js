@@ -2,7 +2,6 @@ class MaitreDuJeu {
 	constructor(){
 		this.lives = 3;
 		this.score = 0;
-		this.me = this;
 	}
 	
 	draw(ctx){
