@@ -36,9 +36,9 @@ zoneDeJeu.isFrameRequested = false;
 
 // le comportement du cube de la zone de jeu
 var progZoneDeJeu = SC.actionOn( drawMe
-						, SC.my("afficheLesEltsDuJeu")
-						, undefined
-						,  SC.forever);
+	, SC.my("afficheLesEltsDuJeu")
+	, undefined
+	,  SC.forever);
 
 //on met l'objet dans un cube
 var cubeZoneDeJeu = SC.cube( zoneDeJeu, progZoneDeJeu);
