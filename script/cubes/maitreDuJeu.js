@@ -35,7 +35,6 @@ class MaitreDuJeu {
 		else{
 			this.lives-=1;
 			console.log("vie : " + this.lives);
-			//doit redessiner la balle sur la raquette
 		}
 	}
 
@@ -72,12 +71,4 @@ var progMaitreDuJeu = SC.par(
 );
 
 //le cube 
-
-/*genere TypeError: a is not a function[En savoir plus]
-SugarCubes.js:3886:11 21 fois*/
 var cubeMaitreDuJeu = SC.cube(new MaitreDuJeu(), progMaitreDuJeu);
-
-//en attendant
-// var cubeMaitreDuJeu = SC.cube(new MaitreDuJeu(), SC.nothing());
-
-//console.log(cubeMaitreDuJeu);
