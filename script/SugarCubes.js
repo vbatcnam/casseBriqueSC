@@ -10,6 +10,10 @@
 ;
 var SC = (function(){
 
+// *********************************************************************************
+// *********************************************************************************
+// *********************************************************************************
+
 const VOID_NODE = {};
 
 function NO_FUN(){}
@@ -103,17 +107,20 @@ SC_CubeBinding.prototype = {
         return copy;
         }
   };
-	function defineConstantProperty(p_obj, p_propertyName, p_propertyValue){
-		Object.defineProperty(
-			p_obj,
-			p_propertyName,
-			{enumerable:false, value:p_propertyValue, writable:false}
-		);
-	}
+function defineConstantProperty(p_obj, p_propertyName, p_propertyValue){
+  Object.defineProperty(
+    p_obj
+    , p_propertyName
+    , {enumerable:false, value:p_propertyValue, writable:false}
+    );
+  }
 defineConstantProperty(SC_CubeBinding.prototype, 'isBinding', true);
 
 /*
+ * ==================================================================
  * Methodes utilitaires utilisées dans l'implantation des SugarCubes.
+ * ==================================================================
+ * ==================================================================
  */
 var _SC = {
 /*
@@ -241,18 +248,22 @@ var _SC = {
         }
       }
   }
+
 /*
+ * ===========================================================================
  * Fonstion qui étend un cube pour implanter quelques fonctions de base :
  *  - ajout d'un comportemnet en parallèle (les programmes sont émis sur
  *    l'événements SC_cubeAddBehaviorEvt)
  *  - ajout de cellules au cube grâce à l'émission de 2 type d'événements
  *    (SC_cubeAddCellEvt et SC_cubeCellifyEvt)
+ * ===========================================================================
+ * ===========================================================================
  */
 function SC_cubify(){
-	defineConstantProperty(this, "SC_cubeAddBehaviorEvt", SC.evt("addBehaviorEvt"));
-	defineConstantProperty(this, "SC_cubeKillEvt", SC.evt("killSelf"));
-	defineConstantProperty(this, "SC_cubeCellifyEvt", SC.evt("cellifyEvt"));
-	defineConstantProperty(this, "SC_cubeAddCellEvt", SC.evt("addCellEvt"));
+  defineConstantProperty(this, "SC_cubeAddBehaviorEvt", SC.evt("addBehaviorEvt"));
+  defineConstantProperty(this, "SC_cubeKillEvt", SC.evt("killSelf"));
+  defineConstantProperty(this, "SC_cubeCellifyEvt", SC.evt("cellifyEvt"));
+  defineConstantProperty(this, "SC_cubeAddCellEvt", SC.evt("addCellEvt"));
   Object.defineProperty(this, "$SC_cellMaker"
                            , { enumerable:false
                                , value:SC.cell({init:null, sideEffect: function(val, evts, m){
@@ -344,14 +355,19 @@ function SC_cubify(){
 }
 /*******************************************************************************
  * Events
+ * ================================================================
  * Les événements sont des valeurs glaobals paratagées entre tous les
  * composants d'un programme. La valeur est présent ou absent à chaque instant.
  * Pour savoir si un événement est présent ou absent, on note dans son état le
  * numéro de l'instant de sa dernière génération. L'événement est présent si le
  * numéro d'instant de sa dernière génération est le numéro d'instnat courrant
  * de la machine d'exécution. Sinon l'événement est absent.
+ * ================================================================
+ * ================================================================
  ******************************************************************************/
+
 // *** SC_Event
+//===============
 function SC_Event(name){
   this.its = -1;
   this.name = name;
@@ -462,6 +478,7 @@ SC_Event.prototype = {
   }
 
 // *** SC_Sensor
+//===============
 function SC_Sensor(name){
   this.its = -1;
   this.name = name;
@@ -840,7 +857,7 @@ function SC_GenerateForeverLateVal(evt, val){
   this.evt = evt;
   this.val = val;
   this.itsParent = null;
-}
+  }
 SC_GenerateForeverLateVal.prototype =
 {
   activate : function(m){
@@ -909,7 +926,7 @@ function SC_GenerateForeverNoVal(evt){
     throw "GenerateForEver error on evt:("+evt+")";
     }
   this.evt = evt;
-}
+  }
 SC_GenerateForeverNoVal.prototype = 
 {
   constructor : SC_GenerateForeverNoVal
@@ -927,11 +944,11 @@ SC_GenerateForeverNoVal.prototype =
 function SC_GenerateForever(evt, val){
   if(undefined === val){
     return new SC_GenerateForeverNoVal(evt);
-  }
+    }
   this.evt = evt;
   this.val = val;
   this.itsParent = null;
-}
+  }
 SC_GenerateForever.prototype = {
   activate : function(m){
     this.itsParent.registerForProduction(this);
@@ -3583,7 +3600,10 @@ SC_CubeCell.prototype = {
 }
 
 /*********
+ * ==============================================================================
  * SC_Machine Class
+ * ==============================================================================
+ * ==============================================================================
  *********/
 function SC_Machine(delay, params){
   this.prg = new SC_Par([]);
@@ -3751,6 +3771,8 @@ function SC_Machine(delay, params){
     }
   }
 }
+
+//====================
 SC_Machine.prototype = 
 {
   constructor : SC_Machine
@@ -3935,7 +3957,10 @@ SC_Machine.prototype =
   };
 
 /*********
+ * ==============================================================================
  * Kill Class
+ * ==============================================================================
+ * ==============================================================================
  *********/
 function Kill(c, p, h){
   if(undefined == h){
@@ -3947,6 +3972,7 @@ function Kill(c, p, h){
   this.h = h;
   this.path = null;
 }
+
 Kill.prototype.activate = function(m){
   if(this.state == SC_Instruction_State.TERM){
     var res = this.h.activate(m);
@@ -3965,6 +3991,7 @@ Kill.prototype.activate = function(m){
     }
   return (SC_Instruction_State.SUSP != this.state)?SC_Instruction_State.WEOI:SC_Instruction_State.SUSP;
   }
+
 Kill.prototype.awake = function(m, flag){
   var res = false;
   switch(this.state){
@@ -3984,6 +4011,7 @@ Kill.prototype.awake = function(m, flag){
     }
   return false;
   }
+
 Kill.prototype.eoi = function(m){
   if((SC_Instruction_State.TERM != this.state) && this.c.isPresent(m)){
     if(SC_Instruction_State.WEOI == this.state){
@@ -4003,6 +4031,7 @@ Kill.prototype.eoi = function(m){
     this.h.eoi(m);
     }
   }
+
 Kill.prototype.reset = function(m){
   if(this.state != SC_Instruction_State.TERM){
     this.p.reset(m);
@@ -4012,6 +4041,7 @@ Kill.prototype.reset = function(m){
   }
   this.state = SC_Instruction_State.SUSP;
 }
+
 Kill.prototype.bindTo = function(engine, parbranch, seq, masterSeq, path, cube){
   var binder = _SC._b(cube);  
   var copy = new Kill();
@@ -4026,6 +4056,7 @@ Kill.prototype.bindTo = function(engine, parbranch, seq, masterSeq, path, cube){
   copy.path = path;
   return copy;
 }
+
 Kill.prototype.toString = function(){
   return "kill "+this.p.toString()
           +" on "+this.c.toString()
@@ -4484,6 +4515,11 @@ function SC_ValueWrapper(tgt, n){
 SC_ValueWrapper.prototype.getVal = function(){
   return this.tgt[this.n];
   }
+
+// ==============================================================================
+// ==============================================================================
+// ==============================================================================
+
 SC = {
   evt: function(name){
     return new SC_Event(name);
@@ -4778,6 +4814,10 @@ SC = {
   forever: -1
 };
 
+//===========================================================================
+//===========================================================================
+//===========================================================================
+
 function Mark(f){
   this.f = f;
   }
@@ -4789,6 +4829,10 @@ Mark.prototype.bindTo = function(engine, parbranch, seq, masterSeq, path, cube){
   var copy = new Mark(this.f);
   return copy;
 }
+
+//===========================================================================
+//===========================================================================
+//===========================================================================
 
 SC.lang ={
   grammar : ""
@@ -5202,6 +5246,8 @@ SC_SkipDef.prototype.process = function(env){
   return "";
   }
 
+//==============================================================
+
 //-- Spaces
 function SC_Spaces(str){
   this.text = str;
@@ -5507,4 +5553,9 @@ SC.lang.parse = function(aSource, aReactiveWorld){
   this.pendingParsing.push(aSource);
   }
   return SC;
+
+// *********************************************************************************
+// *********************************************************************************
+// *********************************************************************************
+
 })();
