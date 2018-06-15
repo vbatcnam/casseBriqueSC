@@ -6,8 +6,8 @@ class MaitreDuJeu {
 	}
 	
 	draw(ctx){
-		drawScore(ctx);
-		drawLives(ctx);
+		this.drawScore(ctx);
+		this.drawLives(ctx);
 	}
 	
 	drawScore(ctx) {
@@ -19,7 +19,7 @@ class MaitreDuJeu {
 	drawLives(ctx) {
 		ctx.font = "16px Arial";
 		ctx.fillStyle = "#0095DD";
-		ctx.fillText("Lives : "+this.lives, canvas.width-65, 20);
+		ctx.fillText("Lives : "+this.lives, zoneDeJeu.width-65, 20);
 	}
 
 	addPoint(){
@@ -60,7 +60,7 @@ var progMaitreDuJeu = SC.par(
 	, SC.seq(
 		SC.pause()
 		, SC.par(
-			SC.actionOn(briqueHere, SC.nothing()
+			SC.actionOn(briqueHere, SC.NO_ACTION
 				, SC.my("afficheFin"), SC.forever)
 				//ne marche pas
 			, SC.actionOn(addPoint, SC.my("addPoint")

@@ -53,7 +53,6 @@ frontiere.verifSiTouched= function(obj_all, machine){
 //================================================================
 //							les cubes
 //================================================================
-var retireVie = SC.evt("retire 1 vie");
 
 //les comportements
 //-----------------
