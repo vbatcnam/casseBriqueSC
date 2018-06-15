@@ -32,7 +32,7 @@ class MaitreDuJeu {
 			alert("Perdu !");
 		}
 		else{
-			this.lives-=1;
+			this.lives -= 1;
 			console.log("vie : " + this.lives);
 		}
 	}
@@ -52,15 +52,11 @@ class MaitreDuJeu {
 */ 
 
 var progMaitreDuJeu = SC.par(
-	// SC.action(SC.my("drawScore"), SC.forever)
 	SC.generate(drawMe, SC.my("me"), SC.forever)
-	// , SC.action(SC.my("drawLives"), SC.forever)
 	, SC.seq(
 		SC.pause()
 		, SC.par(
-			SC.actionOn(briqueHere, SC.NO_ACTION
-				, SC.my("afficheFin"), SC.forever)
-				//ne marche pas
+			SC.actionOn(briqueHere, SC.NO_ACTION, SC.my("afficheFin"), SC.forever)
 			, SC.actionOn(addPoint, SC.my("addPoint")
 				, undefined, SC.forever)
 			, SC.actionOn(retireVie, SC.my("retireVie")

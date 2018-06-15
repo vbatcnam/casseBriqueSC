@@ -58,7 +58,7 @@ class Raquette {
 //le comportement du cube qui a la raquette
 var progRaquette = SC.par(
 	SC.actionOn(ballHere, SC.my("verifSiTouched"), undefined, SC.forever)
-	, SC.action( SC.my("bouge"), SC.forever )//se déplace
+	, SC.action( SC.my("bouge") )//se déplace
 	, SC.generate(drawMe, SC.my("me"), SC.forever)
 );
 
