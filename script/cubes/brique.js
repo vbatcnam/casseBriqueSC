@@ -79,9 +79,6 @@ class Brique {
 			}
 		}
 			
-	segmentTouched(segBegin){//inutile pour l'instant
-		return '';
-	}
 	
 	iAmTuched(machine){//retirer une vie
 		if(this.force == 0){
@@ -92,77 +89,14 @@ class Brique {
 			this.force -= 1;
 			this.color = this.colorise();
 		}
-		console.log('ajoute 1');
+
 		//Dire au maitreDuJeu d'ajouter un point
 		machine.generateEvent(addPoint);
 	}
-	
-/** version Olivier
-===========================
-*/
-    // verifSiTouched(obj_all, machine){
-		// const radius = obj_all[ballHere][0].radius;
-		// const yBall = obj_all[ballHere][0].y;
-		// const dyBall = obj_all[ballHere][0].dy;
-		// const xBall = obj_all[ballHere][0].x;
-		// const dxBall = obj_all[ballHere][0].dx;
-		// // console.log(dyBall);
-		
-		// //le if pas encore au point car faille pour les coins de la brique
-		// if( 
-			// //la balle touche le dessous de la brique
-			// yBall-radius <= this.y + this.height
-			// && yBall-radius >= this.y + this.height - Math.abs(dyBall)
-			// && xBall >= this.x 
-			// && xBall <= this.x+this.width
-			
-			// ||
-			// //la balle touche le dessus de la brique
-			// yBall+radius >= this.y 
-			// && yBall+radius <= this.y + Math.abs(dyBall)
-			// && xBall >= this.x 
-			// && xBall <= this.x+this.width
-			
-			// ||
-			// //la balle touche le côté droit de la brique
-			// xBall - radius <= this.x + this.width
-			// && xBall - radius >= this.x + this.width - Math.abs(dxBall)
-			// && yBall >= this.y
-			// && yBall <= this.height
-			
-			// ||
-			// //la balle touche le côté gauche de la brique
-			// xBall + radius >= this.x
-			// && xBall + radius <= this.x + Math.abs(dxBall)
-			// && yBall >= this.y
-			// && yBall <= this.height
-		// )
-		// {
-			// obj_all[ballHere][0].rebondit("y");	
-			// if(this.force==0){
-				// this.alive = false;
-			    // //la brique ne doit plus émettre
-			    // machine.generateEvent(this.killMe);
-			// }else{
-				// this.force-=1;
-				// this.color = this.colorise();
-			// }
-			// //maitreDuJeu doit ajouter un point
-			
-		// }
-	// }
-/** FIN
-===========================
-*/
-
 }
 
-//en cours
-class border{
-
-}
 //================================================================
-//							le cube 
+//				le cube 
 //================================================================
 
 //Événements de la brique
@@ -196,11 +130,5 @@ for(var c = 0; c < nbreColonnes; c++) {
 	    tab2d_CubeBriques[c][r] = SC.cube(
 		new Brique(c,r,f), SC.kill(SC.my("killMe"),progBrique
 	    ));
-		// tab2d_CubeBriques[c][r] = SC.kill(//configEvenementielle programme h ???
-			// SC.my("killMe")
-			// , SC.cube( new Brique(c,r,f), progBrique)
-		// );
 	}
 }
-    
- 
