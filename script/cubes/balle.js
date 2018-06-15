@@ -1,13 +1,17 @@
 class Balle {
 	constructor() {
-		this.x = zoneDeJeu.width/2;
-		this.y = zoneDeJeu.height-30;
 		this.radius = 10; //rayon
-		this.dx = 2;
-		this.dy = -2
 		this.alive = true;//meurt si elle touche la frontière
 		this.me = this;//l'objet balle dans une propriété (pour SC)
 		this.bouge();
+		this.reset();//place la balle au centre
+	}
+	
+	reset(){
+		this.x = zoneDeJeu.width/2;
+		this.y = zoneDeJeu.height-30;
+		this.dx = 2;
+		this.dy = -2
 	}
 	
 	//doit être appelée par l'objet zoneDeJeu
@@ -29,10 +33,6 @@ class Balle {
 	
 	rebondit(axe){
 		this['d'+ axe] = -this['d'+ axe];
-		// //Si la balle passe sous la raquette, elle meurt
-		// if(this.y < raquette.y){
-			// this.alive = false;
-		// }
 	}
 }
 
