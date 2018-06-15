@@ -2,9 +2,13 @@ class Raquette {
 	constructor() {
 		this.height = 10;
 		this.width = 80;
-		this.x = (zoneDeJeu.width - this.width)/2;// au centre
 		this.y = zoneDeJeu.height - this.height;
 		this.me = this;
+		this.reset();
+	}
+	
+	reset(){
+		this.x = (zoneDeJeu.width - this.width)/2;
 	}
 	
 	draw(ctx){
