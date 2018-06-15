@@ -47,11 +47,13 @@ frontiere.verifSiTouched= function(obj_all, machine){
 		obj_all[ballHere][0].alive = false;
 		//maitreDuJeu doit retirer une vie
 		machine.generateEvent(retireVie);
+		//remmetre la balle au centre
+		obj_all[ballHere][0].reset();
 	}
 };
 
 //================================================================
-//							les cubes
+//			les cubes
 //================================================================
 
 //les comportements
