@@ -36,7 +36,7 @@ class MaitreDuJeu {
 			this.afficheFin(obj_all, machine, "Perdu !");
 		}
 		else{
-			this.lives-=1;
+			this.lives -= 1;
 			// console.log("vie : " + this.lives);
 		}
 	}
@@ -65,8 +65,7 @@ var progMaitreDuJeu = SC.par(
 		SC.pause()
 		, SC.par(
 			SC.kill( jeuFini,
-				SC.actionOn(briqueHere, SC.NO_ACTION
-				, SC.my("afficheFin"), SC.forever)
+				SC.actionOn(briqueHere, SC.NO_ACTION, SC.my("afficheFin"), SC.forever)
 			)
 			, SC.actionOn(addPoint, SC.my("addPoint")
 				, undefined, SC.forever)

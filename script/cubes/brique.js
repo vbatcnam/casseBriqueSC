@@ -10,8 +10,6 @@ class Brique {
 		//coinSupGauche
 		this.x = col * (this.width + this.margin) + this.offsetLeft;
 		this.y = ligne * (this.height + this.margin)+ this.offsetTop;
-		this.alive = true;
-		this.me = this;
 		this.killMe = SC.evt("kill");//ajouté par Olivier
 	}
 	
@@ -21,22 +19,16 @@ class Brique {
 	}
 	
 	draw(ctx){
-		if(this.alive){
-			ctx.beginPath();
-			//(xCoinSupG, yCoinSupG, width, height)
-			ctx.rect(this.x, this.y, this.width, this.height);
-			// ctx.strokeStyle = "rgba(0, 0, 255, 1)";
-			// ctx.stroke();
-			ctx.fillStyle = this.color;
-			ctx.fill();
-			ctx.closePath();
-		}
+		ctx.beginPath();
+		//(xCoinSupG, yCoinSupG, width, height)
+		ctx.rect(this.x, this.y, this.width, this.height);
+		// ctx.strokeStyle = "rgba(0, 0, 255, 1)";
+		// ctx.stroke();
+		ctx.fillStyle = this.color;
+		ctx.fill();
+		ctx.closePath();
 	}
 	
-	givePosition(){
-		return {x: this.x, y: this.y, height: this.height , width: this.width};
-	}
-
 	//il faudra peut être mettre en paramètre le MDJ aussi...
 	verifSiTouched(obj_all, machine){
 		const radius = obj_all[ballHere][0].radius;
@@ -82,7 +74,6 @@ class Brique {
 	
 	iAmTuched(machine){//retirer une vie
 		if(this.force == 0){
-			this.alive = false;//peut être inutile
 			//la brique ne doit plus émettre
 			machine.generateEvent(this.killMe);//ajouté par Olivier
 		}else{
@@ -103,7 +94,7 @@ class Brique {
 //----------------------
 //pour que le maître du jeu sache qu'elle est toujours en vie (dessinée)
 var briqueHere = SC.evt("Je suis une brique et je suis ici");
-var killMe = SC.evt("kill me");
+// var killMe = SC.evt("kill me");
 var addPoint = SC.evt("ajoute 1 point");
 
 //le comportement du cube qui a la brique
@@ -127,8 +118,9 @@ for(var c = 0; c < nbreColonnes; c++) {
 		}
 		
 		//start and kill when ...
-	    tab2d_CubeBriques[c][r] = SC.cube(
-		new Brique(c,r,f), SC.kill(SC.my("killMe"),progBrique
-	    ));
+		tab2d_CubeBriques[c][r] = SC.cube(
+			new Brique(c,r,f)
+			, SC.kill( SC.my("killMe"), progBrique )
+		);
 	}
 }

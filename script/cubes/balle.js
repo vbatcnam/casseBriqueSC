@@ -1,9 +1,6 @@
 class Balle {
 	constructor() {
 		this.radius = 10; //rayon
-		this.alive = true;//meurt si elle touche la frontière
-		this.me = this;//l'objet balle dans une propriété (pour SC)
-		this.bouge();
 		this.reset();//place la balle au centre
 	}
 	
@@ -17,12 +14,12 @@ class Balle {
 	//doit être appelée par l'objet zoneDeJeu
 	draw(ctx){
 		// console.log('début dessin balle');
-        ctx.beginPath();
+		ctx.beginPath();
 		//(xCentre, yCentre, rayon, angleDépart, angleFin, sensAntiHoraire);
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
-        ctx.fillStyle = "#0095DD";
-        ctx.fill();
-        ctx.closePath();
+		ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+		ctx.fillStyle = "#0095DD";
+		ctx.fill();
+		ctx.closePath();
 	}
 	
 	bouge(){
