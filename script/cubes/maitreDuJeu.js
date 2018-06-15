@@ -1,8 +1,12 @@
 class MaitreDuJeu {
 	constructor(){
+		this.me = this;
+		this.reset();
+	}
+	
+	reset(){
 		this.lives = 3;
 		this.score = 0;
-		this.me = this;
 	}
 	
 	draw(ctx){
@@ -23,23 +27,24 @@ class MaitreDuJeu {
 	}
 
 	addPoint(){
-		console.log('ok');
 		this.score += 1;
-		console.log("score : " + this.score);
+		// console.log("score : " + this.score);
 	}
 	
-	retireVie(){
+	retireVie(obj_all, machine){
 		if(this.lives == 0){
-			alert("Perdu !");
+			this.afficheFin(obj_all, machine, "Perdu !");
 		}
 		else{
 			this.lives-=1;
-			console.log("vie : " + this.lives);
+			// console.log("vie : " + this.lives);
 		}
 	}
 
-	afficheFin(){
-		alert("Bravo !")
+	afficheFin(obj_all, machine, message = "Bravo !"){
+		alert(message);
+		machine.generateEvent(jeuFini);
+		this.reset();
 	}
 }
 
@@ -52,16 +57,17 @@ class MaitreDuJeu {
 	quand il n'y a plus de brique la partie est finie et gagnée
 */ 
 
+var jeuFini = SC.evt("FIN");
+
 var progMaitreDuJeu = SC.par(
-	// SC.action(SC.my("drawScore"), SC.forever)
 	SC.generate(drawMe, SC.my("me"), SC.forever)
-	// , SC.action(SC.my("drawLives"), SC.forever)
 	, SC.seq(
 		SC.pause()
 		, SC.par(
-			SC.actionOn(briqueHere, SC.NO_ACTION
+			SC.kill( jeuFini,
+				SC.actionOn(briqueHere, SC.NO_ACTION
 				, SC.my("afficheFin"), SC.forever)
-				//ne marche pas
+			)
 			, SC.actionOn(addPoint, SC.my("addPoint")
 				, undefined, SC.forever)
 			, SC.actionOn(retireVie, SC.my("retireVie")
