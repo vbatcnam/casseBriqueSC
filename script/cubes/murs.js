@@ -14,7 +14,6 @@ var murG = new Mur(0);//x0
 
 var frontiere = new Mur(height);// mur du bas
 
-// murH.verifSiTouched= function(yBall, radius){
 murH.verifSiTouched= function(obj_all){
 	// console.log(obj_all);
 	const yBall = obj_all[ballHere][0].y;
