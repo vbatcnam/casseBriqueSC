@@ -39,12 +39,12 @@ class Balle {
       var index = -1;
       for(var i in walls){ // On cherche le mur le plus traversé (distance
                            // de pénétration max du projectile)
-        if(walls[i].crossIt(this.x, this.y, this.radius)){ //est-ce que le mur est traversé ?
+        if(walls[i].crossIt(this.x, this.y, this.radius, this.dx, this.dy)){ //est-ce que le mur est traversé ?
           var d = Math.abs(walls[i].distance(this.x, this.y)-this.radius);
           if(d > findMax){
             findMax = d;
             index = i;
-            console.log("found wall", i, "d", d);
+            //console.log("found wall", i, "d", d);
             }
           }
         }
@@ -57,8 +57,8 @@ class Balle {
       var scal = bouncer.x*this.dx+bouncer.y*this.dy;
       this.dx -= 2*scal* bouncer.x;
       this.dy -= 2*scal* bouncer.y;
-      this.x -= 2*findMax* bouncer.x;
-      this.y -= 2*findMax* bouncer.y;
+      this.x -= findMax* bouncer.x;
+      this.y -= findMax* bouncer.y;
       findMax = 0;
       index = -1;
       }

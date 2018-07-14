@@ -43,8 +43,10 @@ class MaitreDuJeu {
         }
 
         afficheFin(obj_all, machine, message = "Bravo !"){
-                alert(message);
-                machine.generateEvent(jeuFini);
+                //alert(message);
+                if(undefined != machine){
+		  machine.generateEvent(jeuFini);
+		  }
                 this.reset();
         }
 }

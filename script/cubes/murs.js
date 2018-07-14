@@ -1,14 +1,23 @@
 class Mur
 {
-  constructor(p){ // ax+by+c = 0 ; u{-b,a} ; P
+  constructor(p){ // équation cartésienne : ax+by+c = 0 ;
+                  // un vecteur directeur u{-b/Math.sqrt(b*b+a*a)
+		  //                        , a/Math.sqrt(b*b+a*a)};
     this.a = p.a;
     this.b = p.b;
     this.c = p.c;
-    this.zone = p.z;
+    this.zone = p.z; // Un mur sépare le plan en 2 zones une zone libre
+                     // et une zone interdite. zone permet de choisir quel
+		     // est le demi plan libre et le demi plan interdit.
+/*
+ * On traite ensuite le cas particulier des droites parallèles aux axes du plan.
+ *  - a=0 indique une droite verticale où y est contant.
+ *  - b=0 indique une droite horizontale où x est constant.
+ */
     if(this.a == 0){
       this.x0 = 0;
-      this.y1 = this.y0 = -this.c;
       this.x1 = 1000;
+      this.y1 = this.y0 = -this.c;
       }
     else if(this.b == 0){
       this.x1 = this.x0 = -this.c;
@@ -47,7 +56,6 @@ class Mur
                                    , writable: false
                                    }
                                 );
-      this.me = this;
       this.drawer = {};
       Object.defineProperty(this.drawer, "drawSelf"
                                 , {enumerable:false
@@ -55,20 +63,18 @@ class Mur
                                    , writable: false
                                    }
                                 );
-    this.sqrt = Math.sqrt(this.a*this.a+this.b*this.b);
+    this.sqrt = norm;
+    this.debugDrawing = [];
     }
-  crossIt(x,y,r){
+  crossIt(x,y,r,dx,dy){
     const calc = this.a*x+this.b*y+this.c;
+    if(this.distance(x,y) < 50){
+      this.debugDrawing.push({x:x,y:y,dx:dx,dy:dy,r:r});
+      }
     if(this.zone){
-      if(calc < r){
-        console.log("checking",calc-r);
-        }
       return calc < r;
       }
     else{
-      if(calc > -r){
-        console.log("checking",calc+r);
-        }
       return calc > -r;
       }
     }
@@ -78,7 +84,7 @@ class Mur
   bouncing(){
     this.bounceForce +=10;
     }
-  verifSiTouched(obj_all){
+/*  verifSiTouched(obj_all){
     const ball = obj_all[ballHere][0];
     const x0 = ball.x;
     const y0 = ball.y;
@@ -86,8 +92,44 @@ class Mur
     if(this.crossIt(x0,y0,r)){
       console.log("bounce", this.x0);
       }
-    }
+    }*/
   draw(ctx){
+    for(var data in this.debugDrawing){
+      const d = this.debugDrawing[data];
+      ctx.beginPath();
+      ctx.strokeStyle = '#777777';
+      ctx.setLineDash([5, 5]);
+      ctx.lineWidth = 1;
+      ctx.moveTo(d.x+400*d.dx, d.y+400*d.dy);
+      ctx.lineTo(d.x-400*d.dx, d.y-400*d.dy);
+      ctx.stroke();
+      // d.x+t*d.dx et d.y+t*d.dy tel que sur la ligne =>
+      // this.a*(d.x+t*d.dx)+this.b*(d.y+t*d.dy)+this.c =0
+      // this.a*d.x +this.a*t*d.dx +this.b*d.y +this.b*t*d.dy = -this.c
+      // t*(this.a*d.dx+this.b*d.dy) = -this.c -this.a*d.x -this.b*d.y
+      // t = (-this.c-this.a*d.x-this.b*d.y)/(this.a*d.dx+this.b*d.dy)
+      ctx.closePath();
+      ctx.beginPath();
+      ctx.strokeStyle = '#FF0000';
+      ctx.setLineDash([5, 5]);
+      ctx.lineWidth = 1;
+      const t = (d.r-this.c-this.a*d.x-this.b*d.y)/(this.a*d.dx+this.b*d.dy);
+      const cx = d.x+t*d.dx; 
+      const cy = d.y+t*d.dy; 
+      ctx.moveTo(cx+this.bouncer.normal.x*400,cy+this.bouncer.normal.y*400);
+      ctx.lineTo(cx-this.bouncer.normal.x*400,cy-this.bouncer.normal.y*400);
+      ctx.stroke();
+      ctx.closePath();
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.strokeStyle = '#FF0000';
+      ctx.lineWidth = 1;
+      ctx.moveTo(d.x, d.y);
+      ctx.lineTo(d.x+20*d.dx, d.y+20*d.dy);
+      ctx.stroke();
+      ctx.closePath();
+      }
+    this.debugDrawing = [];
     ctx.beginPath();
     ctx.strokeStyle = 'black';
     ctx.moveTo(this.x0, this.y0);
