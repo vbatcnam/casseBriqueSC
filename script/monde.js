@@ -4,21 +4,19 @@ var moteur = SC.machine(30);// toutes les 30 millisecondes il y a une macro éta
 
 //On ajoute les cubes au moteur
 //-------------------------------------
-monde.addProgram(cubeBalle);
-monde.addProgram(cubeRaquette);
+monde.addActor(cubeBalle);
+monde.addActor(cubeRaquette);
 for(let tab_CubeBriques of tab2d_CubeBriques){
 	for(let prog of tab_CubeBriques){
-		monde.addProgram(prog);
+		monde.addActor(prog);
 	}
 }
-monde.addProgram(cubeMaitreDuJeu);
-monde.addProgram(cubeZoneDeJeu);
+monde.addActor(cubeMaitreDuJeu);
+monde.addActor(cubeZoneDeJeu);
 
 //les murs du cadre
-monde.addProgram(cubeMurH);
-monde.addProgram(cubeMurD);
-monde.addProgram(cubeMurG);
+monde.addActor(cubeMurH);
+monde.addActor(cubeMurD);
+monde.addActor(cubeMurG);
 
-monde.addProgram(cubeFrontiere);
-
-//console.log(monde);
+monde.addActor(cubeFrontiere);
