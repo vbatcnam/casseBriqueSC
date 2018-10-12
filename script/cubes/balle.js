@@ -1,10 +1,26 @@
-class Balle {
+'use strict'
+//================================================================
+//							la balle SugarCubes
+//================================================================
+
+/**
+	type d'info  diffusée au monde, par n'importe quel habitant de ce monde.
+	devrait s'appeler SC.titreInfoEmise("Me voici") ou SC.signalEmis("Me voici");
+	pourquoi cela s’appelle événement ?
+*/
+var ball_signalPosition = SC.evt("Je suis la balle");// en vrais se donne lui-même et non juste l'info
+//var ballHere = SC.evt("Je suis la balle");
+
+/** je crée la classe */
+/** ================= */
+class Balle extends SCCube{
 	constructor() {
+		super();
 		this.radius = 10; //rayon
 		this.reset();//place la balle au centre
 	}
 	
-	reset(){
+	reset() {
 		this.x = zoneDeJeu.width/2;
 		this.y = zoneDeJeu.height-30;
 		this.dx = 2;
@@ -12,6 +28,11 @@ class Balle {
 	}
 	
 	//doit être appelée par l'objet zoneDeJeu
+	//appelle draw()
+	$_draw(){
+		return SC.action(this.draw, SC.forever);
+		// return SC.action(SC.my("draw"), SC.forever);
+	}
 	draw(ctx){
 		// console.log('début dessin balle');
 		ctx.beginPath();
@@ -22,6 +43,16 @@ class Balle {
 		ctx.closePath();
 	}
 	
+	//genère à chaque instant sa position
+	$_donnePosition(){
+		return SC.generate(ball_signalPosition, this, SC.forever);
+	}
+
+	//appelle bouge()
+	$_bouge(){
+		return  SC.action( this.bouge, SC.forever );
+		// return  SC.action( SC.my("bouge"), SC.forever );
+	}
 	bouge(){
 		this.x += this.dx;
 		this.y += this.dy;
@@ -33,20 +64,6 @@ class Balle {
 	}
 }
 
-//================================================================
-//							le cube 
-//================================================================
-
-//l’événement de la balle
-var ballHere = SC.evt("Je suis la balle");
-
-//le comportement du cube qui a la balle
-var progBalle = SC.par(
-	SC.generate(ballHere, SC.my("me"), SC.forever)//parle pour signaler sa position
-	, SC.action( SC.my("bouge"), SC.forever )//se déplace
-	/* on rajoute en parallèle le fait de se dessiner dans le canvas à chaque instant */
-	, SC.generate(drawMe, SC.my("me"), SC.forever)//se dessine
-);
-
-//le cube
-var cubeBalle = SC.cube(new Balle(), progBalle);
+/** je crée le cube */
+/** ================= */
+var balle = new Balle();

@@ -1,5 +1,18 @@
-class MaitreDuJeu {
-	constructor(){
+'use strict'
+
+//================================================================
+//							la maître du jeu SugarCubes
+//================================================================
+/**
+	type d'info  diffusée au monde, par n'importe quel habitant de ce monde.
+*/
+var maitreDuJeu_signalFinDePArtie = SC.evt("FIN");// en vrais se donne lui-même et non juste l'info
+
+/** je crée la classe */
+/** ================= */
+class MaitreDuJeu extends SCCube{
+	constructor() {
+		super();
 		this.me = this;
 		this.reset();
 	}
@@ -9,6 +22,12 @@ class MaitreDuJeu {
 		this.score = 0;
 	}
 	
+	//appelle draw()
+	$_draw(){
+		return SC.action(this.draw, SC.forever);
+		//SC.generate(drawMe, this, SC.forever)
+		// return SC.action(SC.my("draw"), SC.forever);
+	}
 	draw(ctx){
 		this.drawScore(ctx);
 		this.drawLives(ctx);
@@ -26,11 +45,21 @@ class MaitreDuJeu {
 		ctx.fillText("Lives : "+this.lives, zoneDeJeu.width-65, 20);
 	}
 
+	$_addPoint(){
+		// return SC.actionOn(addPoint, SC.my("addPoint")
+				// , undefined, SC.forever)
+		return SC.actionOn(addPoint, this.addPoint
+				, undefined, SC.forever);
+	}
 	addPoint(){
 		this.score += 1;
 		// console.log("score : " + this.score);
 	}
 	
+	$_retireVie(){
+		// return SC.actionOn(retireVie, SC.my("retireVie"), undefined, SC.forever)
+		return SC.actionOn(retireVie, this.retireVie, undefined, SC.forever);
+	}
 	retireVie(obj_all, machine){
 		if(this.lives == 0){
 			this.afficheFin(obj_all, machine, "Perdu !");
@@ -41,6 +70,12 @@ class MaitreDuJeu {
 		}
 	}
 
+	$_afficheFin(){
+		// return SC.actionOn(briqueHere, SC.NO_ACTION, SC.my("afficheFin"), SC.forever)
+		return SC.kill( jeuFini, 
+				SC.actionOn(briqueHere, SC.NO_ACTION, this.afficheFin, SC.forever)
+			);
+	}
 	afficheFin(obj_all, machine, message = "Bravo !"){
 		alert(message);
 		machine.generateEvent(jeuFini);
@@ -48,32 +83,5 @@ class MaitreDuJeu {
 	}
 }
 
-//================================================================
-//							le cube 
-//================================================================
-/*
-	le comportement du cube qui a le maître du jeu : il gère le score et les vies et dit quand la partie est finie
-	quand il n'y a plus de vie la partie est finie et perdue
-	quand il n'y a plus de brique la partie est finie et gagnée
-*/ 
-
-var jeuFini = SC.evt("FIN");
-
-var progMaitreDuJeu = SC.par(
-	SC.generate(drawMe, SC.my("me"), SC.forever)
-	, SC.seq(
-		SC.pause()
-		, SC.par(
-			SC.kill( jeuFini,
-				SC.actionOn(briqueHere, SC.NO_ACTION, SC.my("afficheFin"), SC.forever)
-			)
-			, SC.actionOn(addPoint, SC.my("addPoint")
-				, undefined, SC.forever)
-			, SC.actionOn(retireVie, SC.my("retireVie")
-				, undefined, SC.forever)
-		)
-	)
-);
-
 //le cube 
-var cubeMaitreDuJeu = SC.cube(new MaitreDuJeu(), progMaitreDuJeu);
+var maitreDuJeu = new MaitreDuJeu();
