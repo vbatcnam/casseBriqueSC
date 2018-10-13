@@ -9,7 +9,6 @@
 	pourquoi cela s’appelle événement ?
 */
 var ball_signalPosition = SC.evt("Je suis la balle");// en vrais se donne lui-même et non juste l'info
-//var ballHere = SC.evt("Je suis la balle");
 
 /** je crée la classe */
 /** ================= */

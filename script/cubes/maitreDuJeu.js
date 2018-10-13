@@ -6,14 +6,13 @@
 /**
 	type d'info  diffusée au monde, par n'importe quel habitant de ce monde.
 */
-var maitreDuJeu_signalFinDePArtie = SC.evt("FIN");// en vrais se donne lui-même et non juste l'info
+var maitreDuJeu_signalFinDePartie = SC.evt("FIN");// en vrais se donne lui-même et non juste l'info
 
 /** je crée la classe */
 /** ================= */
 class MaitreDuJeu extends SCCube{
 	constructor() {
 		super();
-		this.me = this;
 		this.reset();
 	}
 	
@@ -22,11 +21,12 @@ class MaitreDuJeu extends SCCube{
 		this.score = 0;
 	}
 	
+	$_signalDraw(){
+		return SC.generate(signal_drawMe, this, SC.forever)
+	}
 	//appelle draw()
 	$_draw(){
 		return SC.action(this.draw, SC.forever);
-		//SC.generate(drawMe, this, SC.forever)
-		// return SC.action(SC.my("draw"), SC.forever);
 	}
 	draw(ctx){
 		this.drawScore(ctx);
@@ -46,9 +46,7 @@ class MaitreDuJeu extends SCCube{
 	}
 
 	$_addPoint(){
-		// return SC.actionOn(addPoint, SC.my("addPoint")
-				// , undefined, SC.forever)
-		return SC.actionOn(addPoint, this.addPoint
+		return SC.actionOn(brique_signalAddPoint, this.addPoint
 				, undefined, SC.forever);
 	}
 	addPoint(){
@@ -57,12 +55,11 @@ class MaitreDuJeu extends SCCube{
 	}
 	
 	$_retireVie(){
-		// return SC.actionOn(retireVie, SC.my("retireVie"), undefined, SC.forever)
-		return SC.actionOn(retireVie, this.retireVie, undefined, SC.forever);
+		return SC.actionOn(maitreDuJeu_signalRetireVie, this.retireVie, undefined, SC.forever);
 	}
-	retireVie(obj_all, machine){
+	retireVie(obj_all, monde){
 		if(this.lives == 0){
-			this.afficheFin(obj_all, machine, "Perdu !");
+			this.afficheFin(obj_all, monde, "Perdu !");
 		}
 		else{
 			this.lives -= 1;
@@ -71,14 +68,13 @@ class MaitreDuJeu extends SCCube{
 	}
 
 	$_afficheFin(){
-		// return SC.actionOn(briqueHere, SC.NO_ACTION, SC.my("afficheFin"), SC.forever)
 		return SC.kill( jeuFini, 
-				SC.actionOn(briqueHere, SC.NO_ACTION, this.afficheFin, SC.forever)
+				SC.actionOn(brique_signalPosition, SC.NO_ACTION, this.afficheFin, SC.forever)
 			);
 	}
-	afficheFin(obj_all, machine, message = "Bravo !"){
+	afficheFin(obj_all, monde, message = "Bravo !"){
 		alert(message);
-		machine.generateEvent(jeuFini);
+		monde.generateEvent(jeuFini);
 		this.reset();
 	}
 }

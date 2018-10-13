@@ -1,5 +1,27 @@
-class Brique {
+'use strict'
+//================================================================
+//							la brique SugarCubes
+//================================================================
+
+//Événements de la brique
+//----------------------
+/**
+	type d'info  diffusée au monde, par n'importe quel habitant de ce monde.
+	devrait s'appeler SC.titreInfoEmise("Me voici") ou SC.signalEmis("Me voici");
+	pourquoi cela s’appelle événement ?
+*/
+//pour que le maître du jeu sache qu'elle est toujours en vie (dessinée)
+var brique_signalPosition = SC.evt("Je suis une brique");// en vrais se donne lui-même et non juste l'info
+
+// var brique_signalKillMe = SC.evt("kill me");
+
+var brique_signalAddPoint = SC.evt("ajoute 1 point");
+
+/** je crée la classe */
+/** ================= */
+class Brique extends SCCube{
 	constructor(col, ligne, force) {
+		super();
 		this.height = 20;
 		this.width = 75;
 		this.margin = 10;
@@ -10,12 +32,20 @@ class Brique {
 		//coinSupGauche
 		this.x = col * (this.width + this.margin) + this.offsetLeft;
 		this.y = ligne * (this.height + this.margin)+ this.offsetTop;
-		this.killMe = SC.evt("kill");//ajouté par Olivier
+		this.brique_signalKillMe = SC.evt("kill");//ajouté par Olivier
 	}
 	
 	colorise(){
 		let color = ["#0095DD", "#00FFFF"]; 
 		return color[this.force];
+	}
+	
+	$_stillAlive{
+		return SC.generate(brique_signalPosition, this, SC.forever)//parle pour signaler qu'elle est en vie
+	}
+	
+	$_draw {
+		return SC.generate(signal_drawMe, this, SC.forever)//se dessine
 	}
 	
 	draw(ctx){
@@ -29,13 +59,16 @@ class Brique {
 		ctx.closePath();
 	}
 	
+	$_verifSiTouched(){
+		return SC.actionOn(ball_signalPosition, this.verifSiTouched, undefined, SC.forever)
+	}
 	//il faudra peut être mettre en paramètre le MDJ aussi...
-	verifSiTouched(obj_all, machine){
-		const radius = obj_all[ballHere][0].radius;
-		const yBall = obj_all[ballHere][0].y;
-		const dyBall = obj_all[ballHere][0].dy;
-		const xBall = obj_all[ballHere][0].x;
-		const dxBall = obj_all[ballHere][0].dx;
+	verifSiTouched(obj_all, monde){
+		const radius = obj_all[ball_signalPosition][0].radius;
+		const yBall = obj_all[ball_signalPosition][0].y;
+		const dyBall = obj_all[ball_signalPosition][0].dy;
+		const xBall = obj_all[ball_signalPosition][0].x;
+		const dxBall = obj_all[ball_signalPosition][0].dx;
 		// console.log(obj_all);
 		
 /** le if pas encore au point car faille pour les coins de la brique */
@@ -51,8 +84,8 @@ class Brique {
 			&& yBall+radius <= this.y + Math.abs(dyBall)
 			&& xBall >= this.x 
 			&& xBall <= this.x+this.width){
-				obj_all[ballHere][0].rebondit("y");
-				this.iAmTuched(machine);
+				obj_all[ball_signalPosition][0].rebondit("y");
+				this.iAmTuched(monde);
 			}
 			
 		// la balle touche les côtés 
@@ -66,51 +99,33 @@ class Brique {
 			&& xBall + radius <= this.x + Math.abs(dxBall)
 			&& yBall >= this.y
 			&& yBall <= this.height){
-				obj_all[ballHere][0].rebondit("x");
-				this.iAmTuched(machine);
+				obj_all[ball_signalPosition][0].rebondit("x");
+				this.iAmTuched(monde);
 			}
 		}
 			
 	
-	iAmTuched(machine){//retirer une vie
+	iAmTuched(monde){//retirer une vie
 		if(this.force == 0){
 			//la brique ne doit plus émettre
-			machine.generateEvent(this.killMe);//ajouté par Olivier
+			monde.generateEvent(this.brique_signalKillMe);//ajouté par Olivier
 		}else{
 			this.force -= 1;
 			this.color = this.colorise();
 		}
 
 		//Dire au maitreDuJeu d'ajouter un point
-		machine.generateEvent(addPoint);
+		monde.generateEvent(brique_signalAddPoint);
 	}
 }
 
-//================================================================
-//				le cube 
-//================================================================
-
-//Événements de la brique
-//----------------------
-//pour que le maître du jeu sache qu'elle est toujours en vie (dessinée)
-var briqueHere = SC.evt("Je suis une brique et je suis ici");
-// var killMe = SC.evt("kill me");
-var addPoint = SC.evt("ajoute 1 point");
-
-//le comportement du cube qui a la brique
-var progBrique = SC.par(
-	SC.generate(briqueHere, SC.my("me"), SC.forever)//parle pour signaler qu'elle est en vie
-	, SC.actionOn(ballHere, SC.my("verifSiTouched"), undefined, SC.forever)
-	, SC.generate(drawMe, SC.my("me"), SC.forever)//se dessine
-);
-
 //les cubes de briques
-var tab2d_CubeBriques = [];
+var tab2d_briques = [];
 var nbreLigne = 5;
 var nbreColonnes = 9 ; 
 
 for(var c = 0; c < nbreColonnes; c++) {
-	tab2d_CubeBriques[c] = [];
+	tab2d_briques[c] = [];
 	for(var r = 0; r < nbreLigne; r++) {
 		let f = 0 // force de la brique
 		if(r%2 == 0){
@@ -118,9 +133,9 @@ for(var c = 0; c < nbreColonnes; c++) {
 		}
 		
 		//start and kill when ...
-		tab2d_CubeBriques[c][r] = SC.cube(
+		tab2d_briques[c][r] = SC.cube(
 			new Brique(c,r,f)
-			, SC.kill( SC.my("killMe"), progBrique )
+			, SC.kill( SC.my("brique_signalKillMe"), progBrique )
 		);
 	}
 }

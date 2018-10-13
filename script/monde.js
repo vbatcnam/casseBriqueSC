@@ -1,22 +1,21 @@
-//le moteur qui exécute les programmes
+//On ajoute les cubes au monde
 //-------------------------------------
-var moteur = SC.machine(30);// toutes les 30 millisecondes il y a une macro étape (ou instant)
-
-//On ajoute les cubes au moteur
-//-------------------------------------
-monde.addActor(cubeBalle);
-monde.addActor(cubeRaquette);
-for(let tab_CubeBriques of tab2d_CubeBriques){
-	for(let prog of tab_CubeBriques){
-		monde.addActor(prog);
-	}
-}
-monde.addActor(cubeMaitreDuJeu);
-monde.addActor(cubeZoneDeJeu);
+monde.addActor(zoneDeJeu);
 
 //les murs du cadre
-monde.addActor(cubeMurH);
-monde.addActor(cubeMurD);
-monde.addActor(cubeMurG);
+monde.addActor(murH);
+monde.addActor(murD);
+monde.addActor(murG);
+monde.addActor(frontiere);//bas de l'ecran
 
-monde.addActor(cubeFrontiere);
+monde.addActor(balle);
+monde.addActor(raquette);
+
+monde.addActor(maitreDuJeu);
+
+//A changer
+for(let tab_ActorBriques of tab2d_briques){
+	for(let brique of tab_ActorBriques){
+		monde.addActor(brique);
+	}
+}

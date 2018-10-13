@@ -1,5 +1,15 @@
-class Raquette {
+'use strict'
+//================================================================
+//							la raquette SugarCubes
+//================================================================
+
+//la raquette n'émet pas de signal (elle pourrait en émettre un)
+
+/** je crée la classe */
+/** ================= */
+class Raquette extends SCCube{
 	constructor() {
+		super();
 		this.height = 10;
 		this.width = 80;
 		this.y = zoneDeJeu.height - this.height;
@@ -10,6 +20,11 @@ class Raquette {
 		this.x = (zoneDeJeu.width - this.width)/2;
 	}
 	
+	//doit être appelée par l'objet zoneDeJeu
+	//appelle draw()
+	$_draw(){
+		return SC.generate(signal_drawMe, this, SC.forever);
+	}
 	draw(ctx){
 		ctx.beginPath();
 		//(xCoinSupG, yCoinSupG, width, height);
@@ -19,8 +34,12 @@ class Raquette {
 		ctx.closePath();
 	}
 	
+	//appelle bouge()
+	$_bouge(){
+		return  SC.action( this.bouge, SC.forever );
+	}
 	bouge(){
-		//souris (plus tard souris et tactile)
+		//souris (plus tard ajouter evt tactile)
 		document.addEventListener(
 			"mousemove", evt=>{
 				let relativeX = evt.clientX - zoneDeJeu.offsetLeft;
@@ -36,33 +55,27 @@ class Raquette {
 			false);
 	}
 	
-	verifSiTouched(obj_all, machine){
-		const radius = obj_all[ballHere][0].radius;
-		const yBall = obj_all[ballHere][0].y + radius;
-		const xBall = obj_all[ballHere][0].x;
+	$_verifSiTouched(){
+		return  SC.actionOn(ball_signalPosition, this.verifSiTouched, undefined, SC.forever) 
+);
+	}
+	verifSiTouched(obj_all, monde){
+		const radius = obj_all[ball_signalPosition][0].radius;
+		const yBall = obj_all[ball_signalPosition][0].y + radius;
+		const xBall = obj_all[ball_signalPosition][0].x;
 		if(
 			yBall == this.y 
 			&& xBall+radius > this.x 
 			&& xBall-radius < this.x+this.width
 		){
-			obj_all[ballHere][0].rebondit("y");
+			obj_all[ball_signalPosition][0].rebondit("y");
 			// console.log("touché");
 		}
 	}
 }
 
-//================================================================
-//							le cube 
-//================================================================
+var raquette = new Raquette();
 
-//le comportement du cube qui a la raquette
-var progRaquette = SC.par(
-	SC.actionOn(ballHere, SC.my("verifSiTouched"), undefined, SC.forever)
-	, SC.action( SC.my("bouge") )//se déplace
-	, SC.generate(drawMe, SC.my("me"), SC.forever)
-);
-
-//le cube
-var cubeRaquette = SC.cube(new Raquette(), progRaquette);
-
-//Par contre le kill devrait être lui même dans un repeat qui indique le nombre de point de vie... JFS (A implémenter)
+/**
+	Par contre le kill devrait être lui même dans un repeat qui indique le nombre de point de vie... JFS (A implémenter)
+*/

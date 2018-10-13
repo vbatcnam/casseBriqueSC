@@ -4,8 +4,8 @@
 // on place ici les déclarations d'événements partagées par plusieurs objets.
 
 //	SC.evt("ce qui sera affiché lors du débug");
-var drawMe = SC.evt("dessine-moi");//globale car diffusion broadcast (parle à tout le monde) Tous les objets disent cette phrase
-var retireVie = SC.evt("retire 1 vie");
+var signal_drawMe = SC.evt("dessine-moi");//globale car diffusion broadcast (parle à tout le monde) Tous les objets disent cette phrase
+var signal_retireVie = SC.evt("retire 1 vie");
 
 //les fonction pour inclure les autres scripts
 function ajouteFinBody(elt){
