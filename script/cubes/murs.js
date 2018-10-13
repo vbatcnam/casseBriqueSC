@@ -17,6 +17,9 @@ class Mur extends SCCube{
 	{
 		return SC.actionOn(ball_signalPosition, SC.my("verifSiTouched"), undefined, SC.forever);
 	}
+	
+	//verifSiTouched(obj_all, ){}
+
 }
 
 // création des cubes

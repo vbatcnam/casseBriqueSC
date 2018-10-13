@@ -12,12 +12,12 @@ class Raquette extends SCCube{
 		super();
 		this.height = 10;
 		this.width = 80;
-		this.y = zoneDeJeu.height - this.height;
+		this.y = zoneDeJeu.canvas.height - this.height;
 		this.reset();
 	}
 	
 	reset(){
-		this.x = (zoneDeJeu.width - this.width)/2;
+		this.x = (zoneDeJeu.canvas.width - this.width)/2;
 	}
 	
 	//doit être appelée par l'objet zoneDeJeu
@@ -56,13 +56,13 @@ class Raquette extends SCCube{
 	}
 	
 	$_verifSiTouched(){
-		return  SC.actionOn(ball_signalPosition, this.verifSiTouched, undefined, SC.forever) 
-);
+		return  SC.actionOn(ball_signalPosition, this.verifSiTouched, undefined, SC.forever);
 	}
 	verifSiTouched(obj_all, monde){
 		const radius = obj_all[ball_signalPosition][0].radius;
 		const yBall = obj_all[ball_signalPosition][0].y + radius;
 		const xBall = obj_all[ball_signalPosition][0].x;
+		console.log(zoneDeJeu.height  );
 		if(
 			yBall == this.y 
 			&& xBall+radius > this.x 

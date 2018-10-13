@@ -40,11 +40,11 @@ class Brique extends SCCube{
 		return color[this.force];
 	}
 	
-	$_stillAlive{
+	$_stillAlive(){
 		return SC.generate(brique_signalPosition, this, SC.forever)//parle pour signaler qu'elle est en vie
 	}
 	
-	$_draw {
+	$_draw() {
 		return SC.generate(signal_drawMe, this, SC.forever)//se dessine
 	}
 	
