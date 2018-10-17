@@ -26,13 +26,8 @@ class Balle extends SCCube{
 		this.dy = -2
 	}
 	
-	//doit être appelée par l'objet zoneDeJeu
-	//appelle draw()
-	$_draw(){
-		return SC.action(this.draw, SC.forever);
-		// return SC.action(SC.my("draw"), SC.forever);
-	}
-	draw(ctx){
+	//Dessine la balle
+	$actionForever_draw(ctx){
 		// console.log('début dessin balle');
 		ctx.beginPath();
 		//(xCentre, yCentre, rayon, angleDépart, angleFin, sensAntiHoraire);
@@ -47,12 +42,8 @@ class Balle extends SCCube{
 		return SC.generate(ball_signalPosition, this, SC.forever);
 	}
 
-	//appelle bouge()
-	$_bouge(){
-		return  SC.action( this.bouge, SC.forever );
-		// return  SC.action( SC.my("bouge"), SC.forever );
-	}
-	bouge(){
+	//déplacement de la balle
+	$actionForever_bouge(){
 		this.x += this.dx;
 		this.y += this.dy;
 		// console.log(this.x, this.y);

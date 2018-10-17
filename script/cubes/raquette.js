@@ -34,11 +34,8 @@ class Raquette extends SCCube{
 		ctx.closePath();
 	}
 	
-	//appelle bouge()
-	$_bouge(){
-		return  SC.action( this.bouge, SC.forever );
-	}
-	bouge(){
+	//Déplacement de la raquette
+	$actionForever_bouge(){
 		//souris (plus tard ajouter evt tactile)
 		document.addEventListener(
 			"mousemove", evt=>{
