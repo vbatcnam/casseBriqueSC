@@ -20,8 +20,8 @@ class Balle extends SCCube{
 	}
 	
 	reset() {
-		this.x = zoneDeJeu.width/2;
-		this.y = zoneDeJeu.height-30;
+		this.x = zoneDeJeu.largeur/2;
+		this.y = zoneDeJeu.hauteur-30;
 		this.dx = 2;
 		this.dy = -2
 	}
@@ -34,6 +34,7 @@ class Balle extends SCCube{
 	draw(ctx){
 		// console.log('début dessin balle');
 		ctx.beginPath();
+		// console.log(this.x, this.y, this.radius, 0, Math.PI*2);
 		//(xCentre, yCentre, rayon, angleDépart, angleFin, sensAntiHoraire);
 		ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
 		ctx.fillStyle = "#0095DD";
