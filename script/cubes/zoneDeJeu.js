@@ -13,6 +13,7 @@ class ZoneDeJeu extends SCCube{
 		this.canvas = document.getElementById("zoneDeJeu");//le canvas
 		this.hauteur = this.canvas.height;
 		this.largeur = this.canvas.width;
+		this.offsetLeft = this.canvas.offsetLeft;
 		this.tab_toDraw=[]; // tableau des objets à redessiner à chaque nouvelle image.
 		// booléen de régulation de l'affichage appelée par affiche()
 		this.isFrameRequested = false; //donné par JFS

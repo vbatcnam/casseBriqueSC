@@ -43,7 +43,7 @@ class Raquette extends SCCube{
 				
 				//pour éviter que la raquette n'entre dans les murs
 				let min = Math.floor(this.width/2);
-				let max = zoneDeJeu.width - min;
+				let max = zoneDeJeu.largeur - min;
 				
 				if(relativeX > min && relativeX < max) {
 					this.x = relativeX - min;
@@ -59,7 +59,6 @@ class Raquette extends SCCube{
 		const radius = obj_all[ball_signalPosition][0].radius;
 		const yBall = obj_all[ball_signalPosition][0].y + radius;
 		const xBall = obj_all[ball_signalPosition][0].x;
-		console.log(zoneDeJeu.hauteur  );
 		if(
 			yBall == this.y 
 			&& xBall+radius > this.x 
