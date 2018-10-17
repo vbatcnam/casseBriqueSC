@@ -11,9 +11,11 @@ class ZoneDeJeu extends SCCube{
 	constructor() {
 		super();
 		this.canvas = document.getElementById("zoneDeJeu");//le canvas
+		this.hauteur = this.canvas.height;
+		this.largeur = this.canvas.width;
 		this.tab_toDraw=[]; // tableau des objets à redessiner à chaque nouvelle image.
 		// booléen de régulation de l'affichage appelée par affiche()
-		this.isFrameRequested = false; 
+		this.isFrameRequested = false; //donné par JFS
 	}
 	/**
 		les méthodes de la classe
@@ -32,9 +34,10 @@ class ZoneDeJeu extends SCCube{
 		this.isFrameRequested = false;//donné par JFS
 	}
 
+	//Activée par "signal_drawMe" émis par les objets
 	$_afficheLesEltsDuJeu(){
 		return SC.actionOn(signal_drawMe
-			, this.afficheLesEltsDuJeu
+			, this.afficheLesEltsDuJeu.bind(this)
 			, undefined
 			, SC.forever 
 		);

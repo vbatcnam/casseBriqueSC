@@ -44,6 +44,7 @@ class Brique extends SCCube{
 		return SC.generate(brique_signalPosition, this, SC.forever)//parle pour signaler qu'elle est en vie
 	}
 	
+	//la brique génère un signal pour que la zone de jeu la dessine 
 	$_draw() {
 		return SC.generate(signal_drawMe, this, SC.forever)//se dessine
 	}
@@ -60,7 +61,7 @@ class Brique extends SCCube{
 	}
 	
 	$_verifSiTouched(){
-		return SC.actionOn(ball_signalPosition, this.verifSiTouched, undefined, SC.forever)
+		return SC.actionOn(ball_signalPosition, this.verifSiTouched.bind(this), undefined, SC.forever)
 	}
 	//il faudra peut être mettre en paramètre le MDJ aussi...
 	verifSiTouched(obj_all, monde){
@@ -108,7 +109,7 @@ class Brique extends SCCube{
 	iAmTuched(monde){//retirer une vie
 		if(this.force == 0){
 			//la brique ne doit plus émettre
-			monde.generateEvent(this.brique_signalKillMe);//ajouté par Olivier
+			monde.generateEvent(this.evtKillInstance);//ajouté par Olivier
 		}else{
 			this.force -= 1;
 			this.color = this.colorise();
@@ -133,9 +134,6 @@ for(var c = 0; c < nbreColonnes; c++) {
 		}
 		
 		//start and kill when ...
-		tab2d_briques[c][r] = SC.cube(
-			new Brique(c,r,f)
-			, SC.kill( SC.my("brique_signalKillMe"), progBrique )
-		);
+		tab2d_briques[c][r] = new Brique(c,r,f);
 	}
 }

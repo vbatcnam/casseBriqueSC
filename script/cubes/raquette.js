@@ -53,13 +53,13 @@ class Raquette extends SCCube{
 	}
 	
 	$_verifSiTouched(){
-		return  SC.actionOn(ball_signalPosition, this.verifSiTouched, undefined, SC.forever);
+		return  SC.actionOn(ball_signalPosition, this.verifSiTouched.bind(this), undefined, SC.forever);
 	}
 	verifSiTouched(obj_all, monde){
 		const radius = obj_all[ball_signalPosition][0].radius;
 		const yBall = obj_all[ball_signalPosition][0].y + radius;
 		const xBall = obj_all[ball_signalPosition][0].x;
-		console.log(zoneDeJeu.height  );
+		console.log(zoneDeJeu.hauteur  );
 		if(
 			yBall == this.y 
 			&& xBall+radius > this.x 

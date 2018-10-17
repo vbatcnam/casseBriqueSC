@@ -13,7 +13,7 @@ monde.addActor(raquette);
 
 monde.addActor(maitreDuJeu);
 
-//A changer
+//Ajout des briques
 for(let tab_ActorBriques of tab2d_briques){
 	for(let brique of tab_ActorBriques){
 		monde.addActor(brique);

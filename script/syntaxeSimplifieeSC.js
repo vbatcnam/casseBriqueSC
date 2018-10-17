@@ -18,6 +18,7 @@ class SCCube extends SC.cube().constructor {
 	constructor() {
 		super(null, null)
 		this.o = this
+		this.evtKillInstance = SC.evt('kill instance')
 		
 		const lArray_methodes = Object.getOwnPropertyNames(this.__proto__)
 		
@@ -37,8 +38,9 @@ class SCCube extends SC.cube().constructor {
 			}
 		}
 		
-		// console.log(this.constructor.name)
-		this.p = SC.kill(SCEVT('kill_' + this.constructor.name), SC.par(...lArray_prog));
+		this.p = SC.kill(SC.or(SCEVT('kill_' + this.constructor.name), this.evtKillInstance),
+			SC.par(...lArray_prog)
+		)
 	}
 }
 

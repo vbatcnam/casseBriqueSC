@@ -26,8 +26,12 @@ class Balle extends SCCube{
 		this.dy = -2
 	}
 	
+	//la balle génère un signal pour que la zone de jeu la dessine 
+	$_draw() {
+		return SC.generate(signal_drawMe, this, SC.forever)//se dessine
+	}
 	//Dessine la balle
-	$actionForever_draw(ctx){
+	draw(ctx){
 		// console.log('début dessin balle');
 		ctx.beginPath();
 		//(xCentre, yCentre, rayon, angleDépart, angleFin, sensAntiHoraire);

@@ -24,10 +24,6 @@ class MaitreDuJeu extends SCCube{
 	$_signalDraw(){
 		return SC.generate(signal_drawMe, this, SC.forever)
 	}
-	//appelle draw()
-	$_draw(){
-		return SC.action(this.draw, SC.forever);
-	}
 	draw(ctx){
 		this.drawScore(ctx);
 		this.drawLives(ctx);
@@ -68,13 +64,13 @@ class MaitreDuJeu extends SCCube{
 	}
 
 	$_afficheFin(){
-		return SC.kill( jeuFini, 
+		return SC.kill( maitreDuJeu_signalFinDePartie, 
 				SC.actionOn(brique_signalPosition, SC.NO_ACTION, this.afficheFin, SC.forever)
 			);
 	}
 	afficheFin(obj_all, monde, message = "Bravo !"){
 		alert(message);
-		monde.generateEvent(jeuFini);
+		monde.generateEvent(maitreDuJeu_signalFinDePartie);
 		this.reset();
 	}
 }
