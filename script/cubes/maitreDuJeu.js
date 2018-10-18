@@ -13,7 +13,7 @@ var maitreDuJeu_signalFinDePartie = SC.evt("FIN");// en vrais se donne lui-même
 class MaitreDuJeu extends SCCube{
 	constructor() {
 		super();
-		this.reset();
+		this.reset();//initialisation du score et des vies
 	}
 	
 	reset(){
@@ -38,20 +38,19 @@ class MaitreDuJeu extends SCCube{
 	drawLives(ctx) {
 		ctx.font = "16px Arial";
 		ctx.fillStyle = "#0095DD";
-		ctx.fillText("Lives : "+this.lives, zoneDeJeu.width-65, 20);
+		ctx.fillText("Lives : "+this.lives, zoneDeJeu.largeur-65, 20);
 	}
 
 	$_addPoint(){
-		return SC.actionOn(brique_signalAddPoint, this.addPoint
+		return SC.actionOn(brique_signalAddPoint, this.addPoint.bind(this)
 				, undefined, SC.forever);
 	}
 	addPoint(){
 		this.score += 1;
-		// console.log("score : " + this.score);
 	}
 	
 	$_retireVie(){
-		return SC.actionOn(maitreDuJeu_signalRetireVie, this.retireVie, undefined, SC.forever);
+		return SC.actionOn(maitreDuJeu_signalRetireVie, this.retireVie.bind(this), undefined, SC.forever);
 	}
 	retireVie(obj_all, monde){
 		if(this.lives == 0){

@@ -24,9 +24,9 @@ class Mur extends SCCube{
 
 // création des cubes
 var murH = new Mur(0);//y0
-var murD = new Mur(zoneDeJeu.width);
+var murD = new Mur(zoneDeJeu.largeur);
 var murG = new Mur(0);//x0
-var frontiere = new Mur(zoneDeJeu.height);// mur du bas
+var frontiere = new Mur(zoneDeJeu.hauteur);// mur du bas
 
 //faire une seule fonction
 murH.verifSiTouched= function(obj_all){
