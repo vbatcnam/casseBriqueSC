@@ -8,7 +8,7 @@
 	devrait s'appeler SC.titreInfoEmise("Me voici") ou SC.signalEmis("Me voici");
 	pourquoi cela s’appelle événement ?
 */
-var ball_signalPosition = SC.evt("Je suis la balle");// en vrais se donne lui-même et non juste l'info
+// var ballSignalPosition = SC.evt("Je suis la balle");// en vrais se donne lui-même et non juste l'info
 
 /** je crée la classe */
 /** ================= */
@@ -44,7 +44,7 @@ class Balle extends SCCube{
 	
 	//genère à chaque instant sa position
 	$_donnePosition(){
-		return SC.generate(ball_signalPosition, this, SC.forever);
+		return SC.generate(SCEVT('ballSignalPosition'), this, SC.forever);
 	}
 
 	//déplacement de la balle

@@ -60,16 +60,13 @@ class Brique extends SCCube{
 		ctx.closePath();
 	}
 	
-	$_verifSiTouched(){
-		return SC.actionOn(ball_signalPosition, this.verifSiTouched.bind(this), undefined, SC.forever)
-	}
 	//il faudra peut être mettre en paramètre le MDJ aussi...
-	verifSiTouched(obj_all, monde){
-		const radius = obj_all[ball_signalPosition][0].radius;
-		const yBall = obj_all[ball_signalPosition][0].y;
-		const dyBall = obj_all[ball_signalPosition][0].dy;
-		const xBall = obj_all[ball_signalPosition][0].x;
-		const dxBall = obj_all[ball_signalPosition][0].dx;
+	$on_ballSignalPosition_verifSiTouched(pArray_valEnvoyee, monde){
+		const radius = pArray_valEnvoyee[0].radius;
+		const yBall = pArray_valEnvoyee[0].y;
+		const dyBall = pArray_valEnvoyee[0].dy;
+		const xBall = pArray_valEnvoyee[0].x;
+		const dxBall = pArray_valEnvoyee[0].dx;
 		// console.log(obj_all);
 		
 /** le if pas encore au point car faille pour les coins de la brique */
@@ -85,7 +82,7 @@ class Brique extends SCCube{
 			&& yBall+radius <= this.y + Math.abs(dyBall)
 			&& xBall >= this.x 
 			&& xBall <= this.x+this.width){
-				obj_all[ball_signalPosition][0].rebondit("y");
+				pArray_valEnvoyee[0].rebondit("y");
 				this.iAmTuched(monde);
 			}
 			
@@ -100,7 +97,7 @@ class Brique extends SCCube{
 			&& xBall + radius <= this.x + Math.abs(dxBall)
 			&& yBall >= this.y
 			&& yBall <= this.height){
-				obj_all[ball_signalPosition][0].rebondit("x");
+				pArray_valEnvoyee[0].rebondit("x");
 				this.iAmTuched(monde);
 			}
 		}

@@ -15,11 +15,11 @@ class Mur extends SCCube{
 	
 	$_verifSiTouched()
 	{
-		return SC.actionOn(ball_signalPosition, SC.my("verifSiTouched"), undefined, SC.forever);
+		return SC.actionOn(SCEVT('ballSignalPosition'), SC.my("verifSiTouched"), undefined, SC.forever);
 	}
 	
 	//verifSiTouched(obj_all, ){}
-
+	//$on_ballSignalPosition_verifSiTouched(pArray_valEnvoyee, monde){}
 }
 
 // création des cubes
@@ -29,40 +29,49 @@ var murG = new Mur(0);//x0
 var frontiere = new Mur(zoneDeJeu.hauteur);// mur du bas
 
 //faire une seule fonction
+//	$on_ballSignalPosition_verifSiTouched(pArray_valEnvoyee, monde){
+
+	// verifSiTouched
+	// rebondit(axe)
+
+// }
+
+// rebondit(axe){}
+
 murH.verifSiTouched= function(obj_all){
 	// console.log(obj_all);
-	const yBall = obj_all[ball_signalPosition][0].y;
-	const radius = obj_all[ball_signalPosition][0].radius;
+	const yBall = obj_all[SCEVT('ballSignalPosition')][0].y;
+	const radius = obj_all[SCEVT('ballSignalPosition')][0].radius;
 	if(yBall - radius == this.position){
-		obj_all[ball_signalPosition][0].rebondit("y");
+		obj_all[SCEVT('ballSignalPosition')][0].rebondit("y");
 	}
 };
 
 murD.verifSiTouched= function(obj_all){
-	const xBall = obj_all[ball_signalPosition][0].x;
-	const radius = obj_all[ball_signalPosition][0].radius;
+	const xBall = obj_all[SCEVT('ballSignalPosition')][0].x;
+	const radius = obj_all[SCEVT('ballSignalPosition')][0].radius;
 	if(xBall + radius == this.position){
-		obj_all[ball_signalPosition][0].rebondit("x");
+		obj_all[SCEVT('ballSignalPosition')][0].rebondit("x");
 	}
 };
 
 murG.verifSiTouched= function(obj_all){
-	const xBall = obj_all[ball_signalPosition][0].x;
-	const radius = obj_all[ball_signalPosition][0].radius;
+	const xBall = obj_all[SCEVT('ballSignalPosition')][0].x;
+	const radius = obj_all[SCEVT('ballSignalPosition')][0].radius;
 	if(xBall - radius == this.position){
-		obj_all[ball_signalPosition][0].rebondit("x");
+		obj_all[SCEVT('ballSignalPosition')][0].rebondit("x");
 	}
 };
 
 frontiere.verifSiTouched= function(obj_all, monde){
-	const yBall = obj_all[ball_signalPosition][0].y;
-	const radius = obj_all[ball_signalPosition][0].radius;
+	const yBall = obj_all[SCEVT('ballSignalPosition')][0].y;
+	const radius = obj_all[SCEVT('ballSignalPosition')][0].radius;
 	if(yBall + radius == this.position){
-		obj_all[ball_signalPosition][0].alive = false;
+		obj_all[SCEVT('ballSignalPosition')][0].alive = false;
 		//maitreDuJeu doit retirer une vie
 		monde.generateEvent(maitreDuJeu_signalRetireVie);
 		//remmetre la balle au centre
-		obj_all[ball_signalPosition][0].reset();
+		obj_all[SCEVT('ballSignalPosition')][0].reset();
 	}
 };
 

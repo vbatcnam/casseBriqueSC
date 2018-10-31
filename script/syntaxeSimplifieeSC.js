@@ -82,9 +82,9 @@ class SCCube extends SC.cube().constructor {
 					const ls_nomEvt = ls_nomMeth.match(/_[A-Za-z0-9]+(?=_)/g)[0].substring(1)
 					lArray_prog.push(SC.actionOn(
 						SCEVT(ls_nomEvt),
-						(pArray_allEvt)=>{
+						(pArray_allEvt, pMachine)=>{
 							const lArray_evt = pArray_allEvt[SCEVT(ls_nomEvt)]
-							this[ls_nomMeth](lArray_evt)
+							this[ls_nomMeth](lArray_evt, pMachine)
 						},
 						undefined,
 						SC.forever

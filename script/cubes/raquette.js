@@ -52,19 +52,16 @@ class Raquette extends SCCube{
 			false);
 	}
 	
-	$_verifSiTouched(){
-		return  SC.actionOn(ball_signalPosition, this.verifSiTouched.bind(this), undefined, SC.forever);
-	}
-	verifSiTouched(obj_all, monde){
-		const radius = obj_all[ball_signalPosition][0].radius;
-		const yBall = obj_all[ball_signalPosition][0].y + radius;
-		const xBall = obj_all[ball_signalPosition][0].x;
+	$on_ballSignalPosition_verifSiTouched(pArray_valEnvoyee, p_monde){
+		const radius = pArray_valEnvoyee[0].radius;
+		const yBall = pArray_valEnvoyee[0].y + radius;
+		const xBall = pArray_valEnvoyee[0].x;
 		if(
 			yBall == this.y 
 			&& xBall+radius > this.x 
 			&& xBall-radius < this.x+this.width
 		){
-			obj_all[ball_signalPosition][0].rebondit("y");
+			pArray_valEnvoyee[0].rebondit("y");
 			// console.log("touché");
 		}
 	}
