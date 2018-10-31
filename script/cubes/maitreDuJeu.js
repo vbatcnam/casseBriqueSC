@@ -22,7 +22,7 @@ class MaitreDuJeu extends SCCube{
 	}
 	
 	$_signalDraw(){
-		return SC.generate(allSignalDrawMe, this, SC.forever)
+		return SC.generate(signalDrawMe, this, SC.forever)
 	}
 	draw(ctx){
 		this.drawScore(ctx);

@@ -35,9 +35,9 @@ class ZoneDeJeu extends SCCube{
 		this.isFrameRequested = false;//donné par JFS
 	}
 
-	//Activée par "allSignalDrawMe" émis par les objets
+	//Activée par "signalDrawMe" émis par les objets
 	$_afficheLesEltsDuJeu(){
-		return SC.actionOn(allSignalDrawMe
+		return SC.actionOn(signalDrawMe
 			, this.afficheLesEltsDuJeu.bind(this)
 			, undefined
 			, SC.forever 
@@ -47,7 +47,7 @@ class ZoneDeJeu extends SCCube{
 	afficheLesEltsDuJeu(obj_all){
 		if(this.isFrameRequested){return;}//évite de redessiner si ce n'est pas fini
 		this.isFrameRequested = true;
-		this.tab_toDraw = obj_all[allSignalDrawMe]; //tableau des objets à redessiner à chaque nouvelle image. zoneDeJeu.tab_toDraw=[cubeBalle, cubeRaquette, tab_CubeBriques]; 
+		this.tab_toDraw = obj_all[signalDrawMe]; //tableau des objets à redessiner à chaque nouvelle image. zoneDeJeu.tab_toDraw=[cubeBalle, cubeRaquette, tab_CubeBriques]; 
 		// console.log(this.tab_toDraw);
 
 		window.requestAnimationFrame(this.dessineLesEltsDuJeu.bind(this))//sc_drawItFun

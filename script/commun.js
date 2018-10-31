@@ -4,7 +4,7 @@
 // on place ici les déclarations d'événements partagées par plusieurs objets.
 
 //	SC.evt("ce qui sera affiché lors du débug");
-var allSignalDrawMe = SC.evt("dessine-moi");//globale car diffusion broadcast (parle à tout le monde) Tous les objets disent cette phrase
+var signalDrawMe = SC.evt("dessine-moi");//globale car diffusion broadcast (parle à tout le monde) Tous les objets disent cette phrase
 var MDJSignalRetireVie = SC.evt("retire 1 vie");
 
 //les fonction pour inclure les autres scripts
