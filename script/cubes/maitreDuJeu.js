@@ -6,7 +6,7 @@
 /**
 	type d'info  diffusée au monde, par n'importe quel habitant de ce monde.
 */
-var maitreDuJeu_signalFinDePartie = SC.evt("FIN");// en vrais se donne lui-même et non juste l'info
+var MDJSignalFinDePartie = SC.evt("FIN");// en vrais se donne lui-même et non juste l'info
 
 /** je crée la classe */
 /** ================= */
@@ -22,7 +22,7 @@ class MaitreDuJeu extends SCCube{
 	}
 	
 	$_signalDraw(){
-		return SC.generate(signal_drawMe, this, SC.forever)
+		return SC.generate(allSignalDrawMe, this, SC.forever)
 	}
 	draw(ctx){
 		this.drawScore(ctx);
@@ -50,7 +50,7 @@ class MaitreDuJeu extends SCCube{
 	}
 	
 	$_retireVie(){
-		return SC.actionOn(maitreDuJeu_signalRetireVie, this.retireVie.bind(this), undefined, SC.forever);
+		return SC.actionOn(MDJSignalRetireVie, this.retireVie.bind(this), undefined, SC.forever);
 	}
 	retireVie(obj_all, monde){
 		if(this.lives == 0){
@@ -63,13 +63,13 @@ class MaitreDuJeu extends SCCube{
 	}
 
 	$_afficheFin(){
-		return SC.kill( maitreDuJeu_signalFinDePartie, 
+		return SC.kill( MDJSignalFinDePartie, 
 				SC.actionOn(brique_signalPosition, SC.NO_ACTION, this.afficheFin, SC.forever)
 			);
 	}
 	afficheFin(obj_all, monde, message = "Bravo !"){
 		alert(message);
-		monde.generateEvent(maitreDuJeu_signalFinDePartie);
+		monde.generateEvent(MDJSignalFinDePartie);
 		this.reset();
 	}
 }

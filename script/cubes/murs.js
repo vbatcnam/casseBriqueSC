@@ -13,38 +13,32 @@ class Mur extends SCCube{
 		this.position = position;
 		this.nom = nom;
 	}
-	
-	$_verifSiTouched()
-	{
-		return SC.actionOn(SCEVT('ballSignalPosition'), SC.my("verifSiTouched"), undefined, SC.forever);
-	}
 
-	//$on_ballSignalPosition_verifSiTouched(pArray_valEnvoyee, monde){}
-	verifSiTouched(obj_all, monde){
-		const radius = obj_all[SCEVT('ballSignalPosition')][0].radius;
+	$on_ballSignalPosition_verifSiTouched(pArray_valEnvoyee, monde){
+		const radius = pArray_valEnvoyee[0].radius;
 		switch(this.nom){
 			case 'murH' :
-				if(obj_all[SCEVT('ballSignalPosition')][0].y - radius == this.position){
-					obj_all[SCEVT('ballSignalPosition')][0].rebondit(y);
+				if(pArray_valEnvoyee[0].y - radius == this.position){
+					pArray_valEnvoyee[0].rebondit(y);
 				};
 				break;
 			case 'murD' :
-				if(obj_all[SCEVT('ballSignalPosition')][0].x + radius == this.position){
-					obj_all[SCEVT('ballSignalPosition')][0].rebondit("x");
+				if(pArray_valEnvoyee[0].x + radius == this.position){
+					pArray_valEnvoyee[0].rebondit("x");
 				}
 				break;
 			case 'murG' :
-				if(obj_all[SCEVT('ballSignalPosition')][0].x - radius == this.position){
-					obj_all[SCEVT('ballSignalPosition')][0].rebondit("x");
+				if(pArray_valEnvoyee[0].x - radius == this.position){
+					pArray_valEnvoyee[0].rebondit("x");
 				};
 				break;
 			case 'frontiere' :
-				if(obj_all[SCEVT('ballSignalPosition')][0].y + radius == this.position){
-					obj_all[SCEVT('ballSignalPosition')][0].alive = false;
+				if(pArray_valEnvoyee[0].y + radius == this.position){
+					pArray_valEnvoyee[0].alive = false;
 					//maitreDuJeu doit retirer une vie
-					monde.generateEvent(maitreDuJeu_signalRetireVie);
+					monde.generateEvent(MDJSignalRetireVie);
 					//remmetre la balle au centre
-					obj_all[SCEVT('ballSignalPosition')][0].reset();
+					pArray_valEnvoyee[0].reset();
 				}
 				break;
 		}

@@ -28,7 +28,7 @@ class Balle extends SCCube{
 	
 	//la balle génère un signal pour que la zone de jeu la dessine 
 	$_draw() {
-		return SC.generate(signal_drawMe, this, SC.forever)//se dessine
+		return SC.generate(allSignalDrawMe, this, SC.forever)//se dessine
 	}
 	//Dessine la balle
 	draw(ctx){

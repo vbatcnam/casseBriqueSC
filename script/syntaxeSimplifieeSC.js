@@ -78,7 +78,7 @@ class SCCube extends SC.cube().constructor {
 							SC.forever
 						))
 					}
-				}else if(instr == '$on_'){
+				}else if(instr == '$on_'){//uniquement avec undefined, SC.forever
 					const ls_nomEvt = ls_nomMeth.match(/_[A-Za-z0-9]+(?=_)/g)[0].substring(1)
 					lArray_prog.push(SC.actionOn(
 						SCEVT(ls_nomEvt),

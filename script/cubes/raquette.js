@@ -23,7 +23,7 @@ class Raquette extends SCCube{
 	//doit être appelée par l'objet zoneDeJeu
 	//appelle draw()
 	$_draw(){
-		return SC.generate(signal_drawMe, this, SC.forever);
+		return SC.generate(allSignalDrawMe, this, SC.forever);
 	}
 	draw(ctx){
 		ctx.beginPath();
