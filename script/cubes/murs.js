@@ -19,7 +19,7 @@ class Mur extends SCCube{
 		switch(this.nom){
 			case 'murH' :
 				if(pArray_valEnvoyee[0].y - radius == this.position){
-					pArray_valEnvoyee[0].rebondit(y);
+					pArray_valEnvoyee[0].rebondit('y');
 				};
 				break;
 			case 'murD' :
@@ -36,7 +36,7 @@ class Mur extends SCCube{
 				if(pArray_valEnvoyee[0].y + radius == this.position){
 					pArray_valEnvoyee[0].alive = false;
 					//maitreDuJeu doit retirer une vie
-					monde.generateEvent(MDJSignalRetireVie);
+					monde.generateEvent(SCEVT('missed'));
 					//remmetre la balle au centre
 					pArray_valEnvoyee[0].reset();
 				}

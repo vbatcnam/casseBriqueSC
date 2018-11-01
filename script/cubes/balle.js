@@ -3,13 +3,6 @@
 //							la balle SugarCubes
 //================================================================
 
-/**
-	type d'info  diffusée au monde, par n'importe quel habitant de ce monde.
-	devrait s'appeler SC.titreInfoEmise("Me voici") ou SC.signalEmis("Me voici");
-	pourquoi cela s’appelle événement ?
-*/
-// var ballSignalPosition = SC.evt("Je suis la balle");// en vrais se donne lui-même et non juste l'info
-
 /** je crée la classe */
 /** ================= */
 class Balle extends SCCube{

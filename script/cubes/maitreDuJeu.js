@@ -49,12 +49,9 @@ class MaitreDuJeu extends SCCube{
 		this.score += 1;
 	}
 	
-	$_retireVie(){
-		return SC.actionOn(MDJSignalRetireVie, this.retireVie.bind(this), undefined, SC.forever);
-	}
-	retireVie(obj_all, monde){
+	$on_missed_retireVie(pArray_valEnv, monde){
 		if(this.lives == 0){
-			this.afficheFin(obj_all, monde, "Perdu !");
+			this.afficheFin(pArray_valEnv, monde, "Perdu !");
 		}
 		else{
 			this.lives -= 1;
@@ -67,7 +64,7 @@ class MaitreDuJeu extends SCCube{
 				SC.actionOn(brique_signalPosition, SC.NO_ACTION, this.afficheFin, SC.forever)
 			);
 	}
-	afficheFin(obj_all, monde, message = "Bravo !"){
+	afficheFin(pObjAll_or_pArray_valEnv, monde, message = "Bravo !"){
 		alert(message);
 		monde.generateEvent(MDJSignalFinDePartie);
 		this.reset();

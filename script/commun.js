@@ -5,7 +5,6 @@
 
 //	SC.evt("ce qui sera affiché lors du débug");
 var signalDrawMe = SC.evt("dessine-moi");//globale car diffusion broadcast (parle à tout le monde) Tous les objets disent cette phrase
-var MDJSignalRetireVie = SC.evt("retire 1 vie");
 
 //les fonction pour inclure les autres scripts
 function ajouteFinBody(elt){
