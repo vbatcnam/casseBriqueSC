@@ -42,7 +42,7 @@ class MaitreDuJeu extends SCCube{
 	}
 
 	$_addPoint(){
-		return SC.actionOn(brique_signalAddPoint, this.addPoint.bind(this)
+		return SC.actionOn(briqueSignalAddPoint, this.addPoint.bind(this)
 				, undefined, SC.forever);
 	}
 	addPoint(){
@@ -61,7 +61,7 @@ class MaitreDuJeu extends SCCube{
 
 	$_afficheFin(){
 		return SC.kill( MDJSignalFinDePartie, 
-				SC.actionOn(brique_signalPosition, SC.NO_ACTION, this.afficheFin, SC.forever)
+				SC.actionOn(briqueSignalPosition, SC.NO_ACTION, this.afficheFin, SC.forever)
 			);
 	}
 	afficheFin(pObjAll_or_pArray_valEnv, monde, message = "Bravo !"){
