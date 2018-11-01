@@ -104,7 +104,7 @@ class Brique extends SCCube{
 	iAmTuched(monde){//retirer une vie
 		if(this.force == 0){
 			//la brique ne doit plus émettre
-			monde.generateEvent(this.evtKillInstance);//ajouté par Olivier
+			monde.generateEvent(this.evtKillInstance);
 		}else{
 			this.force -= 1;
 			this.color = this.colorise();
