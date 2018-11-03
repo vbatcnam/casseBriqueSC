@@ -22,9 +22,8 @@ class Raquette extends SCCube{
 	
 	//doit être appelée par l'objet zoneDeJeu
 	//appelle draw()
-	$_draw(){
-		return SC.generate(SCEVT('drawMe'), this, SC.forever);
-	}
+	$publicConst_drawMe() {return this}
+	
 	draw(ctx){
 		ctx.beginPath();
 		//(xCoinSupG, yCoinSupG, width, height);

@@ -3,10 +3,6 @@
 //================================================================
 //							la maître du jeu SugarCubes
 //================================================================
-/**
-	type d'info  diffusée au monde, par n'importe quel habitant de ce monde.
-*/
-var MDJSignalFinDePartie = SC.evt("FIN");// en vrais se donne lui-même et non juste l'info
 
 /** je crée la classe */
 /** ================= */
@@ -21,9 +17,8 @@ class MaitreDuJeu extends SCCube{
 		this.score = 0;
 	}
 	
-	$_signalDraw(){
-		return SC.generate(SCEVT('drawMe'), this, SC.forever)
-	}
+	$publicConst_drawMe() {return this}
+	
 	draw(ctx){
 		this.drawScore(ctx);
 		this.drawLives(ctx);
@@ -41,17 +36,13 @@ class MaitreDuJeu extends SCCube{
 		ctx.fillText("Lives : "+this.lives, zoneDeJeu.largeur-65, 20);
 	}
 
-	$_addPoint(){
-		return SC.actionOn(briqueSignalAddPoint, this.addPoint.bind(this)
-				, undefined, SC.forever);
-	}
-	addPoint(){
+	$on_touched_addPoint(){
 		this.score += 1;
 	}
 	
 	$on_missed_retireVie(pArray_valEnv, monde){
 		if(this.lives == 0){
-			this.afficheFin(pArray_valEnv, monde, "Perdu !");
+			this.$onNo_briqueExiste_afficheFin(pArray_valEnv, monde, "Perdu !");
 		}
 		else{
 			this.lives -= 1;
@@ -59,14 +50,10 @@ class MaitreDuJeu extends SCCube{
 		}
 	}
 
-	$_afficheFin(){
-		return SC.kill( MDJSignalFinDePartie, 
-				SC.actionOn(briqueSignalPosition, SC.NO_ACTION, this.afficheFin, SC.forever)
-			);
-	}
-	afficheFin(pObjAll_or_pArray_valEnv, monde, message = "Bravo !"){
+	$onNo_briqueExiste_afficheFin(pObjAll_or_pArray_valEnv, monde, message = "Bravo !"){
 		alert(message);
-		monde.generateEvent(MDJSignalFinDePartie);
+		monde.generateEvent(this['kill_$onNo_briqueExiste_afficheFin']);
+		monde.generateEvent(SCEVT('briqueExiste'));
 		this.reset();
 	}
 }

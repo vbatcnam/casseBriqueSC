@@ -11,9 +11,6 @@
 	pourquoi cela s’appelle événement ?
 */
 //pour que le maître du jeu sache qu'elle est toujours en vie (dessinée)
-var briqueSignalPosition = SC.evt("Je suis une brique");// en vrais se donne lui-même et non juste l'info
-
-var briqueSignalAddPoint = SC.evt("ajoute 1 point");
 
 /** je crée la classe */
 /** ================= */
@@ -38,14 +35,10 @@ class Brique extends SCCube{
 		return color[this.force];
 	}
 	
-	$_stillAlive(){
-		return SC.generate(briqueSignalPosition, this, SC.forever)//parle pour signaler qu'elle est en vie
-	}
+	$publicConst_briqueExiste() {}
 	
-	//la brique génère un signal pour que la zone de jeu la dessine 
-	$_draw() {
-		return SC.generate(SCEVT('drawMe'), this, SC.forever)//se dessine
-	}
+	//la brique génère un signal pour que la zone de jeu la dessine
+	$publicConst_drawMe() {return this}
 	
 	draw(ctx){
 		ctx.beginPath();
@@ -111,7 +104,7 @@ class Brique extends SCCube{
 		}
 
 		//Dire au maitreDuJeu d'ajouter un point
-		monde.generateEvent(briqueSignalAddPoint);
+		monde.generateEvent(SCEVT('touched'));
 	}
 }
 

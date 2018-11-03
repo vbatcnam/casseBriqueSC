@@ -37,18 +37,31 @@ class SCCube extends SC.cube().constructor {
 		
 		const lArray_prog = []
 		for(let ls_nomMeth of lArray_methodes) {
+			const pushWithKill = (pProg) => {
+				this['kill_' + ls_nomMeth] = SC.evt('kill_' + ls_nomMeth)
+				lArray_prog.push(
+					SC.kill(
+						SC.or(
+							SCEVT('kill_' + this.constructor.name + '_' + ls_nomMeth),
+							this['kill_' + ls_nomMeth]
+						),
+						pProg
+					)
+				)
+			}
+			
 			if(ls_nomMeth.substring(0,1) == '$') {
 				const {instr, reste, nombres} = parseInstr(ls_nomMeth, [
-					'$actionForever_', '$repeat', '$on_', '$_',
+					'$actionForever_', '$repeat', '$on_', '$_', '$onNo_',
 					'$const_', '$publicConst_',
 					'$var_', '$publicVar_',
 					'$property_', '$publicProperty_'
 				])
 				if(instr == '$actionForever_') {
-					lArray_prog.push( SC.action(this[ls_nomMeth].bind(this), SC.forever) )
+					pushWithKill( SC.action(this[ls_nomMeth].bind(this), SC.forever) )
 				}else if(instr == '$repeat'){
 					const ln_nbFois = parseInt(nombres[0])
-					lArray_prog.push(SC.repeat( ln_nbFois, ...this[ls_nomMeth]() ))
+					pushWithKill(SC.repeat( ln_nbFois, ...this[ls_nomMeth]() ))
 				}else if(instr == '$const_' || instr == '$publicConst_' || instr == '$var_' || instr == '$publicVar_'){
 					const ls_nomVar = reste
 					const lArray_args = (pArray_args[0][ls_nomMeth] == undefined)
@@ -60,7 +73,7 @@ class SCCube extends SC.cube().constructor {
 						this[ls_nomVar] = this[ls_nomMeth].bind(this, ...lArray_args)
 					}
 					if(instr == '$publicVar_' || instr == '$publicConst_'){
-						lArray_prog.push(SC.generate(
+						pushWithKill(SC.generate(
 							SCEVT(ls_nomVar),
 							this[ls_nomVar],
 							SC.forever
@@ -70,9 +83,9 @@ class SCCube extends SC.cube().constructor {
 					const ls_nomProperty = reste
 					const lArray_parts = this[ls_nomMeth]()
 					this[ls_nomProperty] = this.defineProperty(...lArray_parts)
-					lArray_prog.push(SC.repeat( SC.forever, this[ls_nomProperty] ))
+					pushWithKill(SC.repeat( SC.forever, this[ls_nomProperty] ))
 					if(instr == '$publicProperty_'){
-						lArray_prog.push(SC.generate(
+						pushWithKill(SC.generate(
 							SCEVT(ls_nomProperty),
 							this[ls_nomProperty].valeur,
 							SC.forever
@@ -80,7 +93,7 @@ class SCCube extends SC.cube().constructor {
 					}
 				}else if(instr == '$on_'){//uniquement avec undefined, SC.forever
 					const ls_nomEvt = ls_nomMeth.match(/_[A-Za-z0-9]+(?=_)/g)[0].substring(1)
-					lArray_prog.push(SC.actionOn(
+					pushWithKill(SC.actionOn(
 						SCEVT(ls_nomEvt),
 						(pArray_allEvt, pMachine)=>{
 							const lArray_evt = pArray_allEvt[SCEVT(ls_nomEvt)]
@@ -89,8 +102,18 @@ class SCCube extends SC.cube().constructor {
 						undefined,
 						SC.forever
 					))
+				}else if(instr == '$onNo_'){//uniquement avec SC.NO_ACTION, SC.forever
+					const ls_nomEvt = ls_nomMeth.match(/_[A-Za-z0-9]+(?=_)/g)[0].substring(1)
+					pushWithKill(SC.actionOn(
+						SCEVT(ls_nomEvt),
+						SC.NO_ACTION,
+						(pMachine)=>{
+							this[ls_nomMeth]([], pMachine)
+						},
+						SC.forever
+					))
 				}else if(instr == '$_') {
-					lArray_prog.push( this[ls_nomMeth]() )
+					pushWithKill( this[ls_nomMeth]() )
 				}
 			}
 		}
