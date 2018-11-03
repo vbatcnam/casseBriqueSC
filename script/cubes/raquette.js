@@ -20,8 +20,6 @@ class Raquette extends SCCube{
 		this.x = (zoneDeJeu.canvas.width - this.width)/2;
 	}
 	
-	//doit être appelée par l'objet zoneDeJeu
-	//appelle draw()
 	$publicConst_drawMe() {return this}
 	
 	draw(ctx){

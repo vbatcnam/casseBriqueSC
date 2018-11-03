@@ -3,15 +3,6 @@
 //							la brique SugarCubes
 //================================================================
 
-//Événements de la brique
-//----------------------
-/**
-	type d'info  diffusée au monde, par n'importe quel habitant de ce monde.
-	devrait s'appeler SC.titreInfoEmise("Me voici") ou SC.signalEmis("Me voici");
-	pourquoi cela s’appelle événement ?
-*/
-//pour que le maître du jeu sache qu'elle est toujours en vie (dessinée)
-
 /** je crée la classe */
 /** ================= */
 class Brique extends SCCube{

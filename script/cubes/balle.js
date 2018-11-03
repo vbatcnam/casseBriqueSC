@@ -34,7 +34,7 @@ class Balle extends SCCube{
 		ctx.closePath();
 	}
 	
-	//genère à chaque instant sa position
+	//génère à chaque instant sa position
 	$publicConst_ballSignalPosition() {return this}
 	
 	//déplacement de la balle

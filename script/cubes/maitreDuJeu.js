@@ -53,7 +53,7 @@ class MaitreDuJeu extends SCCube{
 	$onNo_briqueExiste_afficheFin(pObjAll_or_pArray_valEnv, monde, message = "Bravo !"){
 		alert(message);
 		monde.generateEvent(this['kill_$onNo_briqueExiste_afficheFin']);
-		monde.generateEvent(SCEVT('briqueExiste'));
+		monde.generateEvent(SCEVT('briqueExiste'));// pour éviter le 2e bravo (Voir avec JFS comment faire pour éviter cela)
 		this.reset();
 	}
 }
