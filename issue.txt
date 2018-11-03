@@ -1,5 +1,0 @@
-TypeError: monde is undefined maitreDuJeu.js:69:3
-
-erreur affichée chaque fois qu'on clique sur ok dans le message box d'alerte bravo
-
-Envoyer l'issue à JFS
