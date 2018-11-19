@@ -26,7 +26,7 @@ class Brique extends SCCube{
 		return color[this.force];
 	}
 	
-	$publicConst_briqueExiste() {}
+	$publicConst_briqueExiste() {}// ???
 	
 	//la brique génère un signal pour que la zone de jeu la dessine
 	$publicConst_drawMe() {return this}
