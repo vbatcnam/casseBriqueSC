@@ -1,7 +1,12 @@
 'use strict'
 /** 
-	syntaxe simplifiée de sugarCubes.js 
+	SyntaxeSimplifieeSC.js
+	Bibliothèque surcouche facilitation sugarCubes.js 
+	Auteur : Claude Lion
+	Date création : 10/10/2018
+	Copyright : © Claude Lion 2018
 */
+
 SC.titreInfoEmise = SC.evt;
 
 //Fabrique un événement par char (
